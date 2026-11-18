@@ -57,7 +57,7 @@ describe("paymentsToCsv", () => {
     expect(row).toContain(',"Invoice ""A"", March",');
   });
 
-  it("neutralises values that spreadsheets would run as formulas", () => {
+  it("neutralizes values that spreadsheets would run as formulas", () => {
     const [, row] = paymentsToCsv([
       payment({ customerEmail: "=HYPERLINK(1)" }),
     ]).split("\n");

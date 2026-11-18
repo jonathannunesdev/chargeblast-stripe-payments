@@ -22,7 +22,7 @@ const HEADERS = [
 ];
 
 /**
- * Quotes values that need it and neutralises leading characters that
+ * Quotes values that need it and neutralizes leading characters that
  * spreadsheet apps would otherwise evaluate as formulas.
  */
 function escapeCell(value: string): string {
