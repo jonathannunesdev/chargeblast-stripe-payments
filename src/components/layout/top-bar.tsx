@@ -91,7 +91,7 @@ export function TopBar({ search, onSearchChange }: TopBarProps) {
             />
           </IconButton>
           <IconButton label="Settings">
-            <GearIcon className="size-5" />
+            <GearIcon className="size-4" />
           </IconButton>
           <button
             type="button"

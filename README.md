@@ -58,7 +58,7 @@ Next.js (App Router), TypeScript (strict), Tailwind CSS, TanStack Table, Radix U
 src/
 ├── app/                      # Routes, root layout and design tokens (globals.css)
 ├── components/
-│   ├── icons/                # Payment method and navigation icons
+│   ├── icons/                # Payment method, navigation and UI icons
 │   ├── layout/               # Sidebar, top bar, account menu
 │   └── ui/                   # Badge, button, checkbox, popover, tooltip, fields
 └── features/payments/
@@ -76,7 +76,7 @@ Filtering, sorting and formatting live in plain functions under `domain/`, indep
 - **Fixed clock.** The reference shows dates on Aug 16, so the app treats Aug 16, 2026, 5:05 PM as "now". Date presets and relative times work against that date.
 - **Amounts.** Stored in the currency's smallest unit, as in the Stripe API, with zero-decimal currencies (JPY) handled. The amount filter and sorting compare face values across currencies, without exchange rates.
 - **Reference vs. brief.** The brief requires a payment ID column, status sorting and 25/50/100 rows per page, which the screenshot does not show. The payment ID column sits after Decline reason, the status header appears on hover, and the page size is chosen from the results range in the footer. This keeps the visible screen identical to the reference.
-- **Icons.** Navigation, button and top bar icons are redrawn from the reference at the size they are shown, matching its stroke weight and color. The Visa, Mastercard, Discover, Link and Apple Pay marks come from the [Stripe iOS SDK](https://github.com/stripe/stripe-ios) (MIT), placed on square tiles sized to the reference.
+- **Icons.** Most sidebar icons and the settings gear come from the [Stripe Dashboard Starter Kit](https://github.com/khoi-stripe/stripe-dash-starter) (MIT). The remaining navigation, button and top bar icons are redrawn from the reference at the size they are shown, matching its stroke weight and color. The Visa, Mastercard, Discover, Link and Apple Pay marks come from the [Stripe iOS SDK](https://github.com/stripe/stripe-ios) (MIT), placed on square tiles sized to the reference.
 
 ## Tests
 

@@ -162,7 +162,7 @@ export function FilterBar({
           Export
         </Button>
         <Button>
-          <GearIcon className="size-[15px] text-ink-body" strokeWidth={1.7} />
+          <GearIcon className="size-[13px] text-ink-body" />
           Edit columns
         </Button>
       </div>
