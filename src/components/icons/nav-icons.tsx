@@ -2,14 +2,14 @@ import type { ReactNode, SVGProps } from "react";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
-/** Outline icons drawn for this project; rendered at 20px they keep a 1.5px stroke. */
+/** Navigation icons, drawn on a 20px grid to match the reference. */
 function Outline({ children, ...props }: IconProps & { children: ReactNode }) {
   return (
     <svg
-      viewBox="0 0 16 16"
+      viewBox="0 0 20 20"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.4}
+      strokeWidth={1.6}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -23,7 +23,8 @@ function Outline({ children, ...props }: IconProps & { children: ReactNode }) {
 export function HomeIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.75 6.9 8 2.5l5.25 4.4v5.85a1 1 0 0 1-1 1H9.6v-3.5H6.4v3.5H3.75a1 1 0 0 1-1-1V6.9Z" />
+      <path d="M3.6 18.2h12.6a.75.75 0 0 0 .75-.75V7.8L9.9 3.2 2.85 7.8v9.65c0 .41.34.75.75.75Z" />
+      <path d="M7.4 18.2v-6.8a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v6.8" />
     </Outline>
   );
 }
@@ -31,8 +32,8 @@ export function HomeIcon(props: IconProps) {
 export function BalancesIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.5 3.25h11M2.5 6.75h8M2.5 10.25h4.5M2.5 13.25h4.5" />
-      <circle cx="11.5" cy="11.75" r="2" />
+      <path d="M3.75 3.9h6.75M5.1 8.2h6.8M3.75 12.1H8M5.1 16.3h3.3" />
+      <circle cx="14.3" cy="13.6" r="2.65" />
     </Outline>
   );
 }
@@ -40,7 +41,8 @@ export function BalancesIcon(props: IconProps) {
 export function TransactionsIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.75 5.5h10.5M10.25 2.5l3 3-3 3M13.25 10.5H2.75M5.75 7.5l-3 3 3 3" />
+      <path d="M3 9.4a3.1 3.1 0 0 1 3.1-3.1h9.5M12.1 2.7l3.6 3.6-3.6 3.6" />
+      <path d="M17 11.1a3.1 3.1 0 0 1-3.1 3.1H4.4M7.9 10.6l-3.6 3.6 3.6 3.6" />
     </Outline>
   );
 }
@@ -48,8 +50,8 @@ export function TransactionsIcon(props: IconProps) {
 export function CustomersIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <circle cx="8" cy="5.25" r="2.75" />
-      <path d="M2.75 13.75c.45-2.45 2.6-4 5.25-4s4.8 1.55 5.25 4" />
+      <circle cx="10" cy="5.6" r="3.3" />
+      <path d="M2.95 17v-1.8a4.4 3.6 0 0 1 4.4-3.6h5.3a4.4 3.6 0 0 1 4.4 3.6V17Z" />
     </Outline>
   );
 }
@@ -57,8 +59,8 @@ export function CustomersIcon(props: IconProps) {
 export function ProductCatalogIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M8 1.75 13.75 4.6v6.8L8 14.25 2.25 11.4V4.6L8 1.75Z" />
-      <path d="M2.25 4.6 8 7.5l5.75-2.9M8 7.5v6.75M5.1 3.2l5.75 2.9" />
+      <path d="M10 2.6 16.8 6.2v7.6L10 17.4l-6.8-3.6V6.2L10 2.6Z" />
+      <path d="M3.2 6.2 10 9.8l6.8-3.6M10 9.8v7.6M6.6 4.4l6.8 3.6" />
     </Outline>
   );
 }
@@ -66,17 +68,20 @@ export function ProductCatalogIcon(props: IconProps) {
 export function PinIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M9.6 2.25 13.75 6.4l-1.6.55-2.6 2.6.2 2.45-1.05 1.05-5.75-5.75L4 6.25l2.45.2 2.6-2.6.55-1.6Z" />
-      <path d="m5.25 10.75-3 3" />
+      <g transform="rotate(45 10 10)" strokeWidth={1.4}>
+        <path d="m6.3 9.6.9-5.9A1.9 1.9 0 0 1 9.1 2h1.8a1.9 1.9 0 0 1 1.9 1.7l.9 5.9" />
+        <rect x="4.2" y="9.6" width="11.6" height="3" rx="1.5" />
+        <path d="M10 12.6v7.4" />
+      </g>
     </Outline>
   );
 }
 
-export function HistoryIcon(props: IconProps) {
+export function ClockIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.9 6.1A5.25 5.25 0 1 1 2.75 8" />
-      <path d="M2.6 2.9v3.2h3.2M8 5.25V8l1.9 1.25" />
+      <circle cx="10" cy="10.3" r="6.3" />
+      <path d="M10 7v5.4h2.2" />
     </Outline>
   );
 }
@@ -84,8 +89,8 @@ export function HistoryIcon(props: IconProps) {
 export function ConnectIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M8 2.25 14 5.5 8 8.75 2 5.5 8 2.25Z" />
-      <path d="m2 9.25 6 3.25 6-3.25" />
+      <path d="M10 3.6 17.6 8.2 10 12.7 2.4 8.2 10 3.6Z" />
+      <path d="m2.4 12.5 7.6 4.5 7.6-4.5" />
     </Outline>
   );
 }
@@ -93,8 +98,9 @@ export function ConnectIcon(props: IconProps) {
 export function WalletIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.25 5.25v7a1.5 1.5 0 0 0 1.5 1.5h8.5a1.5 1.5 0 0 0 1.5-1.5v-5a1.5 1.5 0 0 0-1.5-1.5H3.5a1.25 1.25 0 0 1 0-2.5h7.75" />
-      <path d="M10.75 9.75h.5" strokeWidth={1.8} />
+      <rect x="2.3" y="7.2" width="14.9" height="10" rx="1.5" />
+      <path d="M2.3 8.7V6.2c0-.6.43-1.1 1.02-1.2l8.9-1.5a.8.8 0 0 1 .93.8v2.9" />
+      <circle cx="13.6" cy="12.9" r=".55" fill="currentColor" />
     </Outline>
   );
 }
@@ -102,8 +108,9 @@ export function WalletIcon(props: IconProps) {
 export function BillingIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M12.75 7.5V2.75a1 1 0 0 0-1-1h-7.5a1 1 0 0 0-1 1v10.5a1 1 0 0 0 1 1H7.5" />
-      <path d="M5.75 4.75h4.5M5.75 7.5h2.5M10 11.75a2 2 0 1 1 2 2h-1.5M11.25 12.5l-.75 1.25.75 1" />
+      <path d="M4.9 16.05H3.1a.75.75 0 0 1-.75-.75V3.6a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 .75.75V10" />
+      <path d="M5.5 6.1h1.6M5.5 9.3h5.1" />
+      <path d="M7.6 17.6v-4.5H12M7.9 13.4l.7.7a4.5 4.5 0 0 0 8.1-3.1" />
     </Outline>
   );
 }
@@ -111,32 +118,29 @@ export function BillingIcon(props: IconProps) {
 export function ReportingIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <path d="M2.25 2.25v11.5h11.5M5.25 11V7.25M8 11V4M10.75 11V6.25M13.25 11V8.75" />
+      <path
+        d="M3.4 3.6v12.9h13M6.8 9.3V13M11 6.2V13M14.8 3.9V13"
+        strokeWidth={1.7}
+      />
     </Outline>
   );
 }
 
 export function MoreIcon(props: IconProps) {
   return (
-    <Outline {...props}>
-      <path d="M3.25 8h.01M8 8h.01M12.75 8h.01" strokeWidth={1.9} />
-    </Outline>
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" {...props}>
+      <circle cx="4.2" cy="10.1" r="1.3" />
+      <circle cx="9.8" cy="10.1" r="1.3" />
+      <circle cx="15.4" cy="10.1" r="1.3" />
+    </svg>
   );
 }
 
 export function DevelopersIcon(props: IconProps) {
   return (
     <Outline {...props}>
-      <rect x="1.75" y="2.75" width="12.5" height="10.5" rx="1.5" />
-      <path d="m4.75 6.25 2 1.75-2 1.75M8.5 10h3" />
-    </Outline>
-  );
-}
-
-export function ExportIcon(props: IconProps) {
-  return (
-    <Outline {...props}>
-      <path d="M2.75 9.25v3a1 1 0 0 0 1 1h8.5a1 1 0 0 0 1-1v-3M6.5 9.5l6-6M8.75 3.25h4v4" />
+      <rect x="2.1" y="3.95" width="15.65" height="12.4" rx="1.8" />
+      <path d="m5.6 7.2 3.6 2.8-3.6 2.8M10.2 13.1h4.4" />
     </Outline>
   );
 }

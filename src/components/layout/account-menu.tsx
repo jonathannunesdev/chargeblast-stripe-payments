@@ -18,12 +18,20 @@ const MENU_ITEMS = [
 
 function AccountAvatar() {
   return (
-    <span
-      className="grid size-6 place-content-center rounded-md bg-[#e2dffd] text-[11px] font-bold text-brand"
-      aria-hidden
-    >
-      C
-    </span>
+    <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
+      <rect width="24" height="24" rx="5" fill="#d6c3fb" />
+      <text
+        x="12"
+        y="13.6"
+        textAnchor="middle"
+        fill="#1f1c2e"
+        fontSize="5.6"
+        fontWeight="700"
+        fontFamily="'Brush Script MT', 'Snell Roundhand', cursive"
+      >
+        Cramly
+      </text>
+    </svg>
   );
 }
 

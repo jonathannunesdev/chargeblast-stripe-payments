@@ -29,7 +29,7 @@ export function CopyableId({ id }: { id: string }) {
 
   return (
     <span className="group/id flex items-center gap-1">
-      <span className="font-mono text-[13px] text-ink-subdued" title={id}>
+      <span className="text-ink-subdued" title={id}>
         {shortenId(id)}
       </span>
       <Tooltip content={copied ? "Copied" : "Copy ID"}>

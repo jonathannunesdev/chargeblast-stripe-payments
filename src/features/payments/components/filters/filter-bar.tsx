@@ -1,9 +1,10 @@
 "use client";
 
-import { Cog6ToothIcon } from "@heroicons/react/16/solid";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
-
-import { ExportIcon } from "@/components/icons/nav-icons";
+import {
+  AddCircleIcon,
+  ExportIcon,
+  GearIcon,
+} from "@/components/icons/ui-icons";
 
 import { Button } from "@/components/ui/button";
 
@@ -151,10 +152,7 @@ export function FilterBar({
           aria-disabled="true"
           title="Not available in this demo"
         >
-          <PlusCircleIcon
-            className="size-4 stroke-[1.6] text-ink-subdued"
-            aria-hidden
-          />
+          <AddCircleIcon className="size-4 text-ink-subdued" />
           More filters
         </span>
       </div>
@@ -164,7 +162,7 @@ export function FilterBar({
           Export
         </Button>
         <Button>
-          <Cog6ToothIcon className="size-3.5 text-ink-body" aria-hidden />
+          <GearIcon className="size-[15px] text-ink-body" strokeWidth={1.7} />
           Edit columns
         </Button>
       </div>

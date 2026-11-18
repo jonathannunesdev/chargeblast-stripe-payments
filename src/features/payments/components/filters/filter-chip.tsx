@@ -1,9 +1,10 @@
 "use client";
 
-import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
 import { useState, type ReactNode } from "react";
 
+import { AddCircleIcon } from "@/components/icons/ui-icons";
 import {
   Popover,
   PopoverContent,
@@ -56,12 +57,7 @@ export function FilterChip({
               active ? "pl-0.5" : "pl-[7px]",
             )}
           >
-            {!active && (
-              <PlusCircleIcon
-                className="size-4 stroke-[1.6] text-ink-subdued"
-                aria-hidden
-              />
-            )}
+            {!active && <AddCircleIcon className="size-4 text-ink-subdued" />}
             {label}
             {active && (
               <>

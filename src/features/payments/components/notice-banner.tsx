@@ -1,7 +1,9 @@
 "use client";
 
-import { SparklesIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
+
+import { SparkleIcon } from "@/components/icons/ui-icons";
 
 export function NoticeBanner() {
   const [dismissed, setDismissed] = useState(false);
@@ -10,7 +12,7 @@ export function NoticeBanner() {
   return (
     <aside className="flex h-9 items-center gap-3 rounded-md bg-offset pr-2.5 pl-2 text-sm">
       <span className="flex items-center gap-1 text-xs font-bold">
-        <SparklesIcon className="size-3 text-ink" aria-hidden />
+        <SparkleIcon className="size-3 text-ink" />
         New
       </span>
       <p className="ml-1 min-w-0 flex-1 truncate">

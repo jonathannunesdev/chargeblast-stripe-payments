@@ -5,10 +5,10 @@ import type { ComponentType, SVGProps } from "react";
 import {
   BalancesIcon,
   BillingIcon,
+  ClockIcon,
   ConnectIcon,
   CustomersIcon,
   DevelopersIcon,
-  HistoryIcon,
   HomeIcon,
   MoreIcon,
   PinIcon,
@@ -39,9 +39,9 @@ const MAIN_ITEMS: NavItem[] = [
 
 const SHORTCUT_ITEMS: NavItem[] = [
   { label: "Payments analytics", icon: PinIcon },
-  { label: "Reports", icon: HistoryIcon },
-  { label: "Sigma", icon: HistoryIcon },
-  { label: "Radar", icon: HistoryIcon },
+  { label: "Reports", icon: ClockIcon },
+  { label: "Sigma", icon: ClockIcon },
+  { label: "Radar", icon: ClockIcon },
 ];
 
 const PRODUCT_ITEMS: NavItem[] = [
@@ -64,13 +64,13 @@ function NavLink({ item }: { item: NavItem }) {
         href={item.href ?? "#"}
         aria-current={active ? "page" : undefined}
         className={clsx(
-          "flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm",
+          "flex h-[30.75px] items-center gap-2.5 rounded-md px-2 text-sm",
           "hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand",
-          active ? "font-semibold text-brand" : "text-ink",
+          active ? "font-semibold text-brand" : "font-[430] text-ink",
         )}
       >
         <Icon
-          className={clsx("size-5", active ? "text-brand" : "text-ink-body")}
+          className={clsx("size-5", active ? "text-brand" : "text-ink-muted")}
         />
         <span className="flex-1 truncate">{item.label}</span>
         {item.expandable && (
@@ -86,9 +86,9 @@ function NavLink({ item }: { item: NavItem }) {
 
 function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
   return (
-    <div className={title ? "mt-8" : undefined}>
+    <div className={title ? "mt-[28.5px]" : undefined}>
       {title && (
-        <p className="flex h-7 items-center px-1.5 text-xs text-ink-subdued">
+        <p className="flex h-[26.5px] items-center px-1.5 text-xs text-ink-subdued">
           {title}
         </p>
       )}
@@ -118,9 +118,9 @@ export function Sidebar() {
       <div className="pr-4 pl-2.5">
         <a
           href="#"
-          className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
+          className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm font-[430] hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
         >
-          <DevelopersIcon className="size-5 text-ink-body" />
+          <DevelopersIcon className="size-5 text-ink-muted" />
           Developers
         </a>
       </div>

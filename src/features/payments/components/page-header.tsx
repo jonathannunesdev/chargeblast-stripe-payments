@@ -1,4 +1,4 @@
-import { ChartBarIcon, PlusIcon } from "@heroicons/react/16/solid";
+import { AnalyzeIcon, PlusIcon } from "@/components/icons/ui-icons";
 import { clsx } from "clsx";
 
 import { Button } from "@/components/ui/button";
@@ -21,11 +21,11 @@ export function PageHeader() {
         </h1>
         <div className="flex items-center gap-2">
           <Button variant="primary">
-            <PlusIcon className="size-3.5" aria-hidden />
+            <PlusIcon className="size-3.5" />
             Create payment
           </Button>
           <Button>
-            <ChartBarIcon className="size-3.5 text-ink-muted" aria-hidden />
+            <AnalyzeIcon className="size-3.5 text-icon" />
             Analyze
           </Button>
         </div>
