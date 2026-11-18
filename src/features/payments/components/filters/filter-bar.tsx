@@ -5,8 +5,8 @@ import {
   ExportIcon,
   GearIcon,
 } from "@/components/icons/ui-icons";
-
 import { Button } from "@/components/ui/button";
+import { NOT_AVAILABLE_IN_DEMO } from "@/lib/demo";
 
 import { CURRENCIES } from "../../domain/currency";
 import {
@@ -150,7 +150,7 @@ export function FilterBar({
         <span
           className="inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line pr-2.5 pl-[7px] text-xs font-medium whitespace-nowrap text-ink-subdued"
           aria-disabled="true"
-          title="Not available in this demo"
+          title={NOT_AVAILABLE_IN_DEMO}
         >
           <AddCircleIcon className="size-4 text-ink-subdued" />
           More filters
@@ -161,7 +161,7 @@ export function FilterBar({
           <ExportIcon className="size-4 text-ink-body" />
           Export
         </Button>
-        <Button>
+        <Button aria-disabled="true" title={NOT_AVAILABLE_IN_DEMO}>
           <GearIcon className="size-[13px] text-ink-body" />
           Edit columns
         </Button>

@@ -10,7 +10,17 @@ import { ApplyButton } from "./apply-button";
 function parseAmount(value: string): number | null {
   if (value.trim() === "") return null;
   const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function rangeError(range: AmountRange): string | null {
+  if ((range.min ?? 0) < 0 || (range.max ?? 0) < 0) {
+    return "Amounts can’t be negative.";
+  }
+  if (!isAmountRangeValid(range)) {
+    return "The minimum must be less than or equal to the maximum.";
+  }
+  return null;
 }
 
 interface AmountFilterProps {
@@ -23,7 +33,8 @@ export function AmountFilter({ value, onApply }: AmountFilterProps) {
   const [max, setMax] = useState(value.max?.toString() ?? "");
 
   const range: AmountRange = { min: parseAmount(min), max: parseAmount(max) };
-  const valid = isAmountRangeValid(range);
+  const error = rangeError(range);
+  const valid = error === null;
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -60,9 +71,9 @@ export function AmountFilter({ value, onApply }: AmountFilterProps) {
           aria-invalid={!valid}
         />
       </div>
-      {!valid && (
+      {error && (
         <p role="alert" className="mt-2 text-xs text-danger-ink">
-          The minimum must be less than or equal to the maximum.
+          {error}
         </p>
       )}
       <p className="mt-2 text-xs text-ink-subdued">

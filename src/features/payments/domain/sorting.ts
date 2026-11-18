@@ -13,7 +13,13 @@ export const compareByStatus: PaymentComparator = (a, b) =>
 export const compareByCreated: PaymentComparator = (a, b) =>
   a.created - b.created;
 
-export type PaymentSortKey = "amount" | "status" | "created";
+export const PAYMENT_SORT_KEYS = ["amount", "status", "created"] as const;
+
+export type PaymentSortKey = (typeof PAYMENT_SORT_KEYS)[number];
+
+export function isPaymentSortKey(id: string): id is PaymentSortKey {
+  return (PAYMENT_SORT_KEYS as readonly string[]).includes(id);
+}
 
 export interface PaymentSort {
   key: PaymentSortKey;

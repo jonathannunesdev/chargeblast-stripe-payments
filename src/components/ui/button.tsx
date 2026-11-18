@@ -33,7 +33,7 @@ export function Button({
       type={type}
       className={clsx(
         "inline-flex cursor-pointer items-center gap-1.5 rounded-md font-semibold whitespace-nowrap",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-default",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-default aria-disabled:cursor-default",
         SIZE_CLASSES[size],
         VARIANT_CLASSES[variant],
         className,

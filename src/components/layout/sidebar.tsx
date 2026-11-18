@@ -103,7 +103,11 @@ function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
 
 export function Sidebar() {
   return (
-    <aside className="flex h-full w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
+    <aside className="relative flex h-full w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
+      <span
+        aria-hidden
+        className="absolute top-[583.5px] -right-[10px] h-3.5 w-0.5 rounded-full bg-[#b5c0cd]"
+      />
       <div className="pt-2.5 pr-4 pl-2.5">
         <AccountMenu />
       </div>

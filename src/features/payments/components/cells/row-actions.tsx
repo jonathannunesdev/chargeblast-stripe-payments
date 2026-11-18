@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tooltip } from "@/components/ui/tooltip";
+import { NOT_AVAILABLE_IN_DEMO } from "@/lib/demo";
 
 import type { Payment, PaymentStatus } from "../../domain/payment";
 
@@ -29,8 +30,6 @@ const ACTIONS: Record<
   cancel: { label: "Cancel payment", Icon: ArrowUturnLeftIcon },
   receipt: { label: "Send receipt", Icon: EnvelopeIcon },
 };
-
-const NOT_AVAILABLE = "Not available in this demo";
 
 const BUTTON_CLASSES =
   "grid h-6 w-7 cursor-pointer place-content-center rounded-[5px] text-ink hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand";
@@ -116,7 +115,7 @@ function MenuItem({
         type="button"
         onClick={onSelect}
         aria-disabled={unavailable || undefined}
-        title={unavailable ? NOT_AVAILABLE : undefined}
+        title={unavailable ? NOT_AVAILABLE_IN_DEMO : undefined}
         className="flex h-8 w-full cursor-pointer items-center px-4 text-left whitespace-nowrap hover:bg-offset focus-visible:bg-offset focus-visible:outline-none aria-disabled:cursor-default"
       >
         {children}

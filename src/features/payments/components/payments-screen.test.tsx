@@ -18,7 +18,12 @@ import {
   filterPayments,
   type PaymentFilters,
 } from "../domain/filters";
-import { compareByAmount } from "../domain/sorting";
+import { STATUS_LABELS } from "../domain/payment";
+import {
+  compareByAmount,
+  compareByCreated,
+  compareByStatus,
+} from "../domain/sorting";
 import { PaymentsScreen } from "./payments-screen";
 
 vi.mock("@/lib/download", () => ({ downloadFile: vi.fn() }));
@@ -47,6 +52,10 @@ function filterChip(name: string) {
 
 function dataRows() {
   return screen.getAllByRole("row").slice(1);
+}
+
+function viewing(count: number) {
+  return `Viewing 1–${Math.min(25, count)} of ${count} results`;
 }
 
 async function expectedCount(filters: Partial<PaymentFilters>) {
@@ -131,6 +140,58 @@ describe("PaymentsScreen", () => {
     expect(screen.getByRole("button", { name: "Apply" })).toBeDisabled();
   });
 
+  it("rejects negative amounts", async () => {
+    const user = await renderScreen();
+    await user.click(filterChip("Amount"));
+    await user.type(screen.getByLabelText("Minimum amount"), "-5");
+
+    expect(screen.getByRole("alert")).toHaveTextContent("can’t be negative");
+    expect(screen.getByRole("button", { name: "Apply" })).toBeDisabled();
+  });
+
+  it("filters by an amount range", async () => {
+    const user = await renderScreen();
+    await user.click(filterChip("Amount"));
+    await user.type(screen.getByLabelText("Minimum amount"), "10");
+    await user.type(screen.getByLabelText("Maximum amount"), "20");
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+
+    const count = await expectedCount({ amount: { min: 10, max: 20 } });
+    expect(footerText()).toBe(viewing(count));
+  });
+
+  it("filters by payment method", async () => {
+    const user = await renderScreen();
+    await user.click(filterChip("Payment method"));
+    await user.click(
+      screen.getByRole("checkbox", { name: "ACH Direct Debit" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+
+    const count = await expectedCount({ methods: ["ach"] });
+    expect(count).toBeGreaterThan(0);
+    expect(footerText()).toBe(viewing(count));
+  });
+
+  it("filters by a custom date range", async () => {
+    const user = await renderScreen();
+    await user.click(filterChip("Date and time"));
+    await user.selectOptions(screen.getByLabelText("Date range"), "custom");
+    fireEvent.change(screen.getByLabelText("Start date"), {
+      target: { value: "2026-08-10" },
+    });
+    fireEvent.change(screen.getByLabelText("End date"), {
+      target: { value: "2026-08-12" },
+    });
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+
+    const count = await expectedCount({
+      dateRange: { type: "custom", from: "2026-08-10", to: "2026-08-12" },
+    });
+    expect(count).toBeGreaterThan(0);
+    expect(footerText()).toBe(viewing(count));
+  });
+
   it("filters by a date preset", async () => {
     const user = await renderScreen();
     await user.click(filterChip("Date and time"));
@@ -164,6 +225,37 @@ describe("PaymentsScreen", () => {
     ).toHaveAttribute("aria-sort", "descending");
   });
 
+  it("sorts by status", async () => {
+    const user = await renderScreen();
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Status/ })).getByRole(
+        "button",
+      ),
+    );
+
+    const first = [...(await listPayments())].sort(compareByStatus)[0]!;
+    expect(
+      within(dataRows()[0]!).getByText(STATUS_LABELS[first.status]),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("columnheader", { name: /Status/ }),
+    ).toHaveAttribute("aria-sort", "ascending");
+  });
+
+  it("sorts by date, oldest first", async () => {
+    const user = await renderScreen();
+    await user.click(
+      within(screen.getByRole("columnheader", { name: /Date/ })).getByRole(
+        "button",
+      ),
+    );
+
+    const oldest = [...(await listPayments())].sort(compareByCreated)[0]!;
+    expect(
+      within(dataRows()[0]!).getByText(oldest.customerEmail),
+    ).toBeInTheDocument();
+  });
+
   it("paginates with 25, 50 or 100 rows per page", async () => {
     const user = await renderScreen();
     await user.click(screen.getByRole("button", { name: "Next" }));
@@ -191,6 +283,7 @@ describe("PaymentsScreen", () => {
     await waitFor(() =>
       expect(screen.getByText("Copied to clipboard")).toBeInTheDocument(),
     );
+    expect(await screen.findByRole("tooltip")).toHaveTextContent("Copied");
   });
 
   it("explains a failed status on hover", async () => {

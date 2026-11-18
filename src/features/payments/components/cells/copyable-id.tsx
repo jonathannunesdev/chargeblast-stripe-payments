@@ -32,7 +32,10 @@ export function CopyableId({ id }: { id: string }) {
       <span className="text-ink-subdued" title={id}>
         {shortenId(id)}
       </span>
-      <Tooltip content={copied ? "Copied" : "Copy ID"}>
+      <Tooltip
+        content={copied ? "Copied" : "Copy ID"}
+        open={copied || undefined}
+      >
         <button
           type="button"
           onClick={(event) => {

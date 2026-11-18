@@ -161,7 +161,7 @@ export function PaymentsTable({
   return (
     <div>
       <div className="relative">
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
           <table
             ref={tableRef}
             className={clsx(
@@ -283,7 +283,7 @@ export function PaymentsTable({
                         key={cell.id}
                         style={draggedStyle(cell.column.id)}
                         className={clsx(
-                          "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-hover/row:bg-hover group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
+                          "h-[37.38px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-hover/row:bg-hover group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
                           ALIGN_CLASSES[meta?.align ?? "left"],
                           dragged?.ids.includes(cell.column.id) &&
                             "relative z-20 bg-white!",

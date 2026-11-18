@@ -1,7 +1,8 @@
-import { AnalyzeIcon, PlusIcon } from "@/components/icons/ui-icons";
 import { clsx } from "clsx";
 
+import { AnalyzeIcon, PlusIcon } from "@/components/icons/ui-icons";
 import { Button } from "@/components/ui/button";
+import { NOT_AVAILABLE_IN_DEMO } from "@/lib/demo";
 
 const TABS = [
   "Payments",
@@ -20,11 +21,15 @@ export function PageHeader() {
           Transactions
         </h1>
         <div className="flex items-center gap-2">
-          <Button variant="primary">
+          <Button
+            variant="primary"
+            aria-disabled="true"
+            title={NOT_AVAILABLE_IN_DEMO}
+          >
             <PlusIcon className="size-3.5" />
             Create payment
           </Button>
-          <Button>
+          <Button aria-disabled="true" title={NOT_AVAILABLE_IN_DEMO}>
             <AnalyzeIcon className="size-3.5 text-icon" />
             Analyze
           </Button>

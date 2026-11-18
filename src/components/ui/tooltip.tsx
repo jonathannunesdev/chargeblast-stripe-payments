@@ -16,6 +16,8 @@ interface TooltipProps {
   children: ReactNode;
   side?: RadixTooltip.TooltipContentProps["side"];
   size?: keyof typeof SIZE_CLASSES;
+  /** Forces the tooltip open, e.g. to confirm an action. */
+  open?: boolean;
 }
 
 export function Tooltip({
@@ -23,9 +25,10 @@ export function Tooltip({
   children,
   side = "top",
   size = "sm",
+  open,
 }: TooltipProps) {
   return (
-    <RadixTooltip.Root>
+    <RadixTooltip.Root open={open}>
       <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
       <RadixTooltip.Portal>
         <RadixTooltip.Content

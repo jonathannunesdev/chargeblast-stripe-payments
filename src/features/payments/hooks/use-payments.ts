@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-import { DATASET_NOW, listPayments } from "../data/payments-service";
+import { listPayments } from "../data/payments-service";
 import type { Payment } from "../domain/payment";
 
 type PaymentsState =
   | { status: "loading" }
   | { status: "error" }
-  | { status: "ready"; payments: Payment[]; now: number };
+  | { status: "ready"; payments: Payment[] };
 
 /**
  * Loads payments on the client only, so dates are formatted in the viewer's
@@ -21,8 +21,7 @@ export function usePayments(): PaymentsState {
     let cancelled = false;
     listPayments()
       .then((payments) => {
-        if (!cancelled)
-          setState({ status: "ready", payments, now: DATASET_NOW });
+        if (!cancelled) setState({ status: "ready", payments });
       })
       .catch(() => {
         if (!cancelled) setState({ status: "error" });
