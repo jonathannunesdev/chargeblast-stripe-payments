@@ -49,9 +49,17 @@ interface FilterBarProps {
     key: K,
     value: PaymentFilters[K],
   ) => void;
+  canExport: boolean;
+  onExport: () => void;
 }
 
-export function FilterBar({ filters, now, onChange }: FilterBarProps) {
+export function FilterBar({
+  filters,
+  now,
+  onChange,
+  canExport,
+  onExport,
+}: FilterBarProps) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div
@@ -151,7 +159,7 @@ export function FilterBar({ filters, now, onChange }: FilterBarProps) {
         </span>
       </div>
       <div className="flex shrink-0 items-center gap-2">
-        <Button>
+        <Button disabled={!canExport} onClick={onExport}>
           <ExportIcon className="size-4 text-ink-body" />
           Export
         </Button>

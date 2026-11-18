@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Providers } from "@/app/providers";
+import { downloadFile } from "@/lib/download";
 
 import { DATASET_NOW, listPayments } from "../data/payments-service";
 import { formatAmount } from "../domain/format";
@@ -13,6 +14,8 @@ import {
 } from "../domain/filters";
 import { compareByAmount } from "../domain/sorting";
 import { PaymentsScreen } from "./payments-screen";
+
+vi.mock("@/lib/download", () => ({ downloadFile: vi.fn() }));
 
 async function renderScreen() {
   const user = userEvent.setup();
@@ -181,6 +184,26 @@ describe("PaymentsScreen", () => {
     expect(writeText).toHaveBeenCalledWith("pi_3kMg5AEfd5tYxm9rM6ynPK98");
     await waitFor(() =>
       expect(screen.getByText("Copied to clipboard")).toBeInTheDocument(),
+    );
+  });
+
+  it("exports the filtered payments as CSV", async () => {
+    const user = await renderScreen();
+    await user.click(
+      screen.getByRole("button", { name: "Failed", pressed: false }),
+    );
+    await user.click(screen.getByRole("button", { name: "Export" }));
+
+    expect(downloadFile).toHaveBeenCalledTimes(1);
+    const [filename, csv, type] = vi.mocked(downloadFile).mock.calls[0]!;
+    expect(filename).toBe("payments-2026-08-16.csv");
+    expect(type).toContain("text/csv");
+
+    const lines = csv.split("\n");
+    const count = await expectedCount({ statuses: ["failed"] });
+    expect(lines).toHaveLength(count + 1);
+    expect(lines[1]).toMatch(
+      /^pi_3kMg5AEfd5tYxm9rM6ynPK98,.*,9\.88,USD,Failed,/,
     );
   });
 });

@@ -12,3 +12,26 @@ export const compareByStatus: PaymentComparator = (a, b) =>
 
 export const compareByCreated: PaymentComparator = (a, b) =>
   a.created - b.created;
+
+export type PaymentSortKey = "amount" | "status" | "created";
+
+export interface PaymentSort {
+  key: PaymentSortKey;
+  desc: boolean;
+}
+
+const COMPARATORS: Record<PaymentSortKey, PaymentComparator> = {
+  amount: compareByAmount,
+  status: compareByStatus,
+  created: compareByCreated,
+};
+
+/** Stable sort that returns a new array. */
+export function sortPayments(
+  payments: readonly Payment[],
+  sort: PaymentSort,
+): Payment[] {
+  const compare = COMPARATORS[sort.key];
+  const direction = sort.desc ? -1 : 1;
+  return [...payments].sort((a, b) => direction * compare(a, b));
+}

@@ -21,9 +21,13 @@ import { TableFooter } from "./table-footer";
 
 export const PAGE_SIZES = [25, 50, 100] as const;
 
+export const DEFAULT_SORTING: SortingState = [{ id: "created", desc: true }];
+
 interface PaymentsTableProps {
   payments: Payment[];
   now: number;
+  sorting: SortingState;
+  onSortingChange: (sorting: SortingState) => void;
   hasActiveFilters: boolean;
   onClearFilters: () => void;
 }
@@ -31,11 +35,12 @@ interface PaymentsTableProps {
 export function PaymentsTable({
   payments,
   now,
+  sorting,
+  onSortingChange,
   hasActiveFilters,
   onClearFilters,
 }: PaymentsTableProps) {
   const columns = useMemo(() => createPaymentColumns(now), [now]);
-  const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORTING);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: PAGE_SIZES[0],
@@ -49,7 +54,9 @@ export function PaymentsTable({
     columns,
     state: { sorting, pagination, rowSelection },
     onSortingChange: (updater) => {
-      setSorting(updater);
+      onSortingChange(
+        typeof updater === "function" ? updater(sorting) : updater,
+      );
       setPagination((prev) => ({ ...prev, pageIndex: 0 }));
     },
     onPaginationChange: setPagination,
@@ -189,8 +196,6 @@ export function PaymentsTable({
     </div>
   );
 }
-
-const DEFAULT_SORTING: SortingState = [{ id: "created", desc: true }];
 
 /** The reference shows no arrow while the list is in its default order. */
 function isDefaultSort(sorting: SortingState): boolean {
