@@ -1,12 +1,34 @@
 @import "tailwindcss";
 
+/* Values measured from the Stripe Dashboard. */
 @theme {
   --font-sans:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Ubuntu, sans-serif;
+    -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu,
+    sans-serif;
+  --font-mono: Menlo, Consolas, "Liberation Mono", monospace;
+
+  --color-ink: #1a2c44;
+  --color-ink-subdued: #3c4f69;
+  --color-ink-muted: #50617a;
+  --color-line: #d4dee9;
+  --color-line-subtle: #ecf1f6;
+  --color-offset: #f4f7fa;
+  --color-hover: #f8fafd;
+  --color-brand: #533afd;
+  --color-brand-hover: #4329e8;
+
+  --color-success-ink: #217005;
+  --color-success-bg: #eafcdd;
+  --color-success-line: #a8f170;
+  --color-danger-ink: #c0123c;
+  --color-danger-bg: #fef4f6;
+  --color-danger-line: #fbd3dc;
+  --color-warning-ink: #b13600;
+  --color-warning-bg: #fdf8c9;
+  --color-warning-line: #fbd992;
 }
 
 body {
   background: #ffffff;
-  color: #353a44;
+  color: var(--color-ink);
 }

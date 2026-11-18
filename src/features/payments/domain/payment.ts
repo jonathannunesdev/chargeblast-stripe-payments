@@ -24,7 +24,7 @@ export const STATUS_LABELS: Record<PaymentStatus, string> = {
   uncaptured: "Uncaptured",
 };
 
-export type CardBrand = "visa" | "mastercard" | "amex" | "discover";
+export type CardBrand = "visa" | "mastercard" | "amex" | "discover" | "unknown";
 export type Wallet = "apple_pay" | "google_pay" | "link";
 
 export type PaymentMethod =

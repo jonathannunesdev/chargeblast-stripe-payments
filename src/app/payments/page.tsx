@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
+
+import { PaymentsScreen } from "@/features/payments/components/payments-screen";
+
+export const metadata: Metadata = {
+  title: "Payments",
+};
+
 export default function PaymentsPage() {
   return (
-    <main className="p-8">
-      <h1 className="text-[28px] font-bold">Transactions</h1>
+    <main className="px-10 pb-10">
+      <PaymentsScreen />
     </main>
   );
 }

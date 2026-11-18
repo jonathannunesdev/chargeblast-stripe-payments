@@ -5,3 +5,11 @@ import { afterEach } from "vitest";
 afterEach(() => {
   cleanup();
 });
+
+// Radix primitives measure elements with ResizeObserver, which jsdom lacks.
+class ResizeObserverStub {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+globalThis.ResizeObserver ??= ResizeObserverStub;

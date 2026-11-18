@@ -129,7 +129,7 @@ const CURRENCY_WEIGHTS: Record<CurrencyCode, number> = {
   jpy: 3,
 };
 
-const CARD_BRAND_WEIGHTS: Record<CardBrand, number> = {
+const CARD_BRAND_WEIGHTS: Record<Exclude<CardBrand, "unknown">, number> = {
   visa: 55,
   mastercard: 27,
   amex: 11,
