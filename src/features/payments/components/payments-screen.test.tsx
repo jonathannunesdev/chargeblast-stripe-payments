@@ -24,7 +24,7 @@ async function renderScreen() {
       <PaymentsScreen />
     </Providers>,
   );
-  await screen.findByText("jlima@fwdesign.com");
+  await screen.findByText("jjuan@hwlawnv.com");
   return user;
 }
 
@@ -98,7 +98,7 @@ describe("PaymentsScreen", () => {
     await user.type(screen.getByRole("searchbox"), "4149");
     const count = await expectedCount({ query: "4149" });
     expect(dataRows()).toHaveLength(count);
-    expect(screen.getByText("jlima@fwdesign.com")).toBeInTheDocument();
+    expect(screen.getByText("jjuan@hwlawnv.com")).toBeInTheDocument();
   });
 
   it("shows an empty state that clears the filters", async () => {

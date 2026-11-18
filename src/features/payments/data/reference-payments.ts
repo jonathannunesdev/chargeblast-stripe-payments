@@ -7,8 +7,9 @@ import type {
 } from "../domain/payment";
 
 /**
- * The 20 most recent payments, mirroring the reference screenshot row by row.
- * Customer emails are fictitious replacements for the ones in the screenshot.
+ * The 20 most recent payments, transcribed row by row from the reference
+ * screenshot. Payment IDs are mock values, and the year (2026) is assumed
+ * because the screenshot does not show it.
  */
 interface ReferenceRow {
   id: string;
@@ -19,7 +20,7 @@ interface ReferenceRow {
   wallet: Wallet | null;
   last4: string;
   email: string;
-  time: [hours: number, minutes: number];
+  time: readonly [hours: number, minutes: number];
   declineReason: string | null;
 }
 
@@ -34,7 +35,7 @@ const ROWS: ReferenceRow[] = [
     brand: "discover",
     wallet: null,
     last4: "4149",
-    email: "jlima@fwdesign.com",
+    email: "jjuan@hwlawnv.com",
     time: [17, 3],
     declineReason: "Transaction not allowed",
   },
@@ -46,7 +47,7 @@ const ROWS: ReferenceRow[] = [
     brand: "mastercard",
     wallet: "link",
     last4: "0900",
-    email: "jpcarlton204@gmail.com",
+    email: "merussell101@gmail.com",
     time: [16, 59],
     declineReason: null,
   },
@@ -58,7 +59,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "apple_pay",
     last4: "6745",
-    email: "marianaluisacampos@gmail.com",
+    email: "santiagovaleriasofia@gmail.com",
     time: [16, 34],
     declineReason: "Do not honor",
   },
@@ -70,7 +71,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "2109",
-    email: "rebeccaholden4100@hotmail.co.uk",
+    email: "samanthamundy5000@hotmail.co.uk",
     time: [16, 20],
     declineReason: null,
   },
@@ -82,7 +83,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "3641",
-    email: "helena.barros.arq@gmail.com",
+    email: "isadora.rohling.acs@gmail.com",
     time: [16, 13],
     declineReason: "Insufficient funds",
   },
@@ -94,7 +95,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "0898",
-    email: "megan.carter@gmail.com",
+    email: "ashley.birley@gmail.com",
     time: [15, 53],
     declineReason: null,
   },
@@ -106,7 +107,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "1453",
-    email: "chloedawson91@gmail.com",
+    email: "sophiamarlea87@gmail.com",
     time: [15, 43],
     declineReason: "Do not honor",
   },
@@ -118,7 +119,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "2665",
-    email: "mtk.lucas.r@gmail.com",
+    email: "tns.adrian.i@gmail.com",
     time: [15, 34],
     declineReason: null,
   },
@@ -130,7 +131,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "apple_pay",
     last4: "2770",
-    email: "Kaylene0712@gmail.com",
+    email: "Jaeneen0904@gmail.com",
     time: [15, 32],
     declineReason: null,
   },
@@ -142,7 +143,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "3944",
-    email: "dbrandt88@gmail.com",
+    email: "fhoese93@gmail.com",
     time: [15, 30],
     declineReason: null,
   },
@@ -154,7 +155,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "3622",
-    email: "latoyaparker27@gmail.com",
+    email: "tesheikamagee35@gmail.com",
     time: [15, 25],
     declineReason: "Insufficient funds",
   },
@@ -166,7 +167,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "6580",
-    email: "monteiroanacarolina@gmail.com",
+    email: "castilhosmariafernanda@gmail.com",
     time: [15, 14],
     declineReason: null,
   },
@@ -178,7 +179,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "6751",
-    email: "lilybug2004@gmail.com",
+    email: "jemmagirl2003@gmail.com",
     time: [14, 56],
     declineReason: null,
   },
@@ -190,7 +191,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "2625",
-    email: "owen.fletcher2271@gmail.com",
+    email: "grant.griffin3140@gmail.com",
     time: [14, 54],
     declineReason: null,
   },
@@ -202,7 +203,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "2914",
-    email: "dianaholloway.rn@yahoo.com",
+    email: "robynbermudez.ibclc@yahoo.com",
     time: [14, 53],
     declineReason: "Insufficient funds",
   },
@@ -214,7 +215,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "4734",
-    email: "tamika7731@gmail.com",
+    email: "shuntae8890@gmail.com",
     time: [14, 53],
     declineReason: "Transaction not allowed",
   },
@@ -226,7 +227,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: null,
     last4: "1870",
-    email: "nicolas.herrera412@outlook.com",
+    email: "sebastian.pineda567@outlook.com",
     time: [14, 51],
     declineReason: null,
   },
@@ -238,7 +239,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "5054",
-    email: "carlagreene515@gmail.com",
+    email: "mitziwhite808@gmail.com",
     time: [14, 47],
     declineReason: null,
   },
@@ -250,7 +251,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "3509",
-    email: "jaxon.wright22@icloud.com",
+    email: "braylen.smith15@icloud.com",
     time: [14, 44],
     declineReason: null,
   },
@@ -262,7 +263,7 @@ const ROWS: ReferenceRow[] = [
     brand: "visa",
     wallet: "link",
     last4: "2627",
-    email: "sopheapkhem@gmail.com",
+    email: "yuphavanndim@gmail.com",
     time: [14, 34],
     declineReason: null,
   },
