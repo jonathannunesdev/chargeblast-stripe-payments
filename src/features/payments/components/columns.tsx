@@ -160,7 +160,7 @@ export function createPaymentColumns(now: number) {
         width: 41,
         align: "center",
         className:
-          "sticky right-0 z-10 bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover before:pointer-events-none before:absolute before:inset-y-0 before:-left-8 before:w-8 before:bg-linear-to-r before:from-white/0 before:to-white before:content-[''] group-hover/row:before:to-hover [&>*]:mx-auto",
+          "sticky right-0 z-10 bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover [&>*]:mx-auto",
       },
     }),
   ];

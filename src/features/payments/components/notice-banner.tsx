@@ -17,18 +17,23 @@ export function NoticeBanner() {
         Rule Attributes are now in Sigma and Data Pipeline for better fraud
         insights.
       </p>
-      <a href="#" className="text-brand hover:underline">
-        Get started
-      </a>
-      <span className="h-4 w-px bg-line" aria-hidden />
-      <button
-        type="button"
-        onClick={() => setDismissed(true)}
-        aria-label="Dismiss"
-        className="grid size-6 cursor-pointer place-content-center rounded text-ink hover:bg-line-subtle focus-visible:outline-2 focus-visible:outline-brand"
-      >
-        <XMarkIcon className="size-4 stroke-1" aria-hidden />
-      </button>
+      <div className="flex items-center">
+        <button
+          type="button"
+          className="cursor-pointer rounded-sm text-brand hover:underline focus-visible:outline-2 focus-visible:outline-brand"
+        >
+          Get started
+        </button>
+        <span className="ml-[18px] h-5 w-px bg-line" aria-hidden />
+        <button
+          type="button"
+          onClick={() => setDismissed(true)}
+          aria-label="Dismiss"
+          className="ml-1.5 grid size-6 cursor-pointer place-content-center rounded text-ink hover:bg-line-subtle focus-visible:outline-2 focus-visible:outline-brand"
+        >
+          <XMarkIcon className="size-5" aria-hidden />
+        </button>
+      </div>
     </aside>
   );
 }

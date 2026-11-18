@@ -31,7 +31,7 @@ export function FilterChip({
     <Popover open={open} onOpenChange={setOpen}>
       <span
         className={clsx(
-          "inline-flex h-6 items-center rounded-full border text-xs font-semibold whitespace-nowrap text-ink-subdued",
+          "inline-flex h-6 items-center rounded-full border text-xs font-medium whitespace-nowrap text-ink-subdued",
           active ? "border-solid border-line" : "border-dashed border-line",
         )}
       >

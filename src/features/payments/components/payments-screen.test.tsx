@@ -160,7 +160,8 @@ describe("PaymentsScreen", () => {
     await user.click(screen.getByRole("button", { name: "Next" }));
     expect(footerText()).toBe("Viewing 26–50 of 500 results");
 
-    await user.selectOptions(screen.getByLabelText("Rows per page"), "100");
+    await user.click(screen.getByRole("button", { name: "Rows per page: 25" }));
+    await user.click(screen.getByRole("button", { name: "100 rows" }));
     expect(dataRows()).toHaveLength(100);
     expect(screen.getByRole("button", { name: "Previous" })).toBeDisabled();
   });

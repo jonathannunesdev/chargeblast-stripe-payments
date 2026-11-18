@@ -1,11 +1,18 @@
 @import "tailwindcss";
 
-/* Values sampled from the reference screenshot of the Stripe Dashboard. */
+/*
+ * Values sampled from the reference screenshot (converted from Display P3 to sRGB).
+ * Font weights are tuned so text renders with the same density as the reference.
+ */
 @theme {
   --font-sans:
     -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu,
     sans-serif;
   --font-mono: Menlo, Consolas, "Liberation Mono", monospace;
+  --font-weight-normal: 460;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 630;
+  --font-weight-bold: 740;
 
   --color-ink-strong: #30313d;
   --color-ink: #353a44;
@@ -21,21 +28,24 @@
   --color-brand-solid: #635bff;
   --color-brand-solid-hover: #5851ec;
 
-  --color-success-ink: #2f6c18;
-  --color-success-bg: #edfbe0;
-  --color-success-line: #b8ef81;
-  --color-danger-ink: #b0233c;
-  --color-danger-bg: #fcf4f6;
-  --color-danger-line: #f5d4dc;
+  --color-success-ink: #217005;
+  --color-success-bg: #eafcdd;
+  --color-success-line: #a8f171;
+  --color-danger-ink: #c0123c;
+  --color-danger-bg: #fef4f6;
+  --color-danger-line: #fcd2dc;
   --color-warning-ink: #a8400a;
   --color-warning-bg: #fef9da;
   --color-warning-line: #fbd992;
+  --color-danger-icon: #df1b41;
+  --color-success-icon: #228403;
   --color-neutral-ink: #596171;
   --color-neutral-bg: #f5f6f8;
-  --color-neutral-line: #d9dee3;
+  --color-neutral-line: #d8dee4;
 }
 
 body {
   background: #ffffff;
   color: var(--color-ink);
+  font-weight: var(--font-weight-normal);
 }

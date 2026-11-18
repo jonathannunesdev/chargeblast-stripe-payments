@@ -16,7 +16,7 @@ export function DateCell({ timestamp, now }: DateCellProps) {
         dateTime={new Date(timestamp).toISOString()}
         tabIndex={0}
         aria-label={`${formatPaymentDate(timestamp, now)} (${relative})`}
-        className="rounded-sm focus-visible:outline-2 focus-visible:outline-brand"
+        className="rounded-sm text-ink-subdued focus-visible:outline-2 focus-visible:outline-brand"
       >
         {formatPaymentDate(timestamp, now)}
       </time>

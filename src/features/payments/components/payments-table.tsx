@@ -66,115 +66,124 @@ export function PaymentsTable({
 
   return (
     <div>
-      <div className="overflow-x-auto">
-        <table className="w-max min-w-full table-fixed border-separate border-spacing-0 text-sm">
-          <colgroup>
-            {table.getVisibleLeafColumns().map((column) => (
-              <col
-                key={column.id}
-                style={{ width: column.columnDef.meta?.width }}
-              />
-            ))}
-          </colgroup>
-          <thead className="group/head">
-            {table.getHeaderGroups().map((group) => (
-              <tr key={group.id}>
-                {group.headers.map((header) => {
-                  const meta = header.column.columnDef.meta;
-                  const sorted = header.column.getIsSorted();
-                  const label = flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  );
+      <div className="relative">
+        <div className="overflow-x-auto">
+          <table className="w-max min-w-full table-fixed border-separate border-spacing-0 text-sm">
+            <colgroup>
+              {table.getVisibleLeafColumns().map((column) => (
+                <col
+                  key={column.id}
+                  style={{ width: column.columnDef.meta?.width }}
+                />
+              ))}
+            </colgroup>
+            <thead className="group/head">
+              {table.getHeaderGroups().map((group) => (
+                <tr key={group.id}>
+                  {group.headers.map((header) => {
+                    const meta = header.column.columnDef.meta;
+                    const sorted = header.column.getIsSorted();
+                    const label = flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    );
 
-                  return (
-                    <th
-                      key={header.id}
-                      scope="col"
-                      aria-sort={
-                        sorted === "asc"
-                          ? "ascending"
-                          : sorted === "desc"
-                            ? "descending"
-                            : undefined
-                      }
-                      className={clsx(
-                        "h-[38px] border-y border-t-line border-b-line-subtle bg-white px-1.5 text-xs font-semibold whitespace-nowrap text-ink",
-                        ALIGN_CLASSES[meta?.align ?? "left"],
-                        meta?.className,
-                      )}
-                    >
-                      {header.column.getCanSort() ? (
-                        <button
-                          type="button"
-                          onClick={header.column.getToggleSortingHandler()}
-                          className={clsx(
-                            "group/sort inline-flex cursor-pointer items-center gap-0.5 rounded-sm focus-visible:outline-2 focus-visible:outline-brand",
-                            meta?.align === "right" && "flex-row-reverse",
-                            meta?.revealHeaderOnHover &&
-                              !sorted &&
-                              "opacity-0 group-hover/head:opacity-100 focus-visible:opacity-100",
-                          )}
-                        >
-                          {label}
-                          <SortIndicator
-                            direction={isDefaultSort(sorting) ? false : sorted}
-                          />
-                        </button>
-                      ) : (
-                        label
-                      )}
-                    </th>
-                  );
-                })}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {payments.length === 0 && (
-              <tr>
-                <td
-                  colSpan={columnCount}
-                  className="sticky left-0 border-b border-line-subtle py-16 text-center"
-                >
-                  <p className="font-semibold">No results</p>
-                  <p className="mt-1 text-ink-subdued">
-                    {hasActiveFilters
-                      ? "No payments match the current filters."
-                      : "There are no payments yet."}
-                  </p>
-                  {hasActiveFilters && (
-                    <Button className="mt-3" onClick={onClearFilters}>
-                      Clear filters
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            )}
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="group/row hover:bg-hover">
-                {row.getVisibleCells().map((cell) => {
-                  const meta = cell.column.columnDef.meta;
-                  return (
-                    <td
-                      key={cell.id}
-                      className={clsx(
-                        "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap",
-                        ALIGN_CLASSES[meta?.align ?? "left"],
-                        meta?.className,
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    return (
+                      <th
+                        key={header.id}
+                        scope="col"
+                        aria-sort={
+                          sorted === "asc"
+                            ? "ascending"
+                            : sorted === "desc"
+                              ? "descending"
+                              : undefined
+                        }
+                        className={clsx(
+                          "h-[38px] border-y border-t-line border-b-line-subtle bg-white px-1.5 text-xs font-bold whitespace-nowrap text-ink",
+                          ALIGN_CLASSES[meta?.align ?? "left"],
+                          meta?.className,
+                        )}
+                      >
+                        {header.column.getCanSort() ? (
+                          <button
+                            type="button"
+                            onClick={header.column.getToggleSortingHandler()}
+                            className={clsx(
+                              "group/sort inline-flex cursor-pointer items-center gap-0.5 rounded-sm focus-visible:outline-2 focus-visible:outline-brand",
+                              meta?.align === "right" && "flex-row-reverse",
+                              meta?.revealHeaderOnHover &&
+                                !sorted &&
+                                "opacity-0 group-hover/head:opacity-100 focus-visible:opacity-100",
+                            )}
+                          >
+                            {label}
+                            <SortIndicator
+                              direction={
+                                isDefaultSort(sorting) ? false : sorted
+                              }
+                            />
+                          </button>
+                        ) : (
+                          label
+                        )}
+                      </th>
+                    );
+                  })}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {payments.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={columnCount}
+                    className="sticky left-0 border-b border-line-subtle py-16 text-center"
+                  >
+                    <p className="font-semibold">No results</p>
+                    <p className="mt-1 text-ink-subdued">
+                      {hasActiveFilters
+                        ? "No payments match the current filters."
+                        : "There are no payments yet."}
+                    </p>
+                    {hasActiveFilters && (
+                      <Button className="mt-3" onClick={onClearFilters}>
+                        Clear filters
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              )}
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id} className="group/row hover:bg-hover">
+                  {row.getVisibleCells().map((cell) => {
+                    const meta = cell.column.columnDef.meta;
+                    return (
+                      <td
+                        key={cell.id}
+                        className={clsx(
+                          "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap",
+                          ALIGN_CLASSES[meta?.align ?? "left"],
+                          meta?.className,
+                        )}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {/* Rows scroll under the pinned actions column, which casts a soft shadow. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-[41px] w-2 bg-linear-to-r from-black/0 to-black/[0.04]"
+        />
       </div>
       <TableFooter table={table} pageSizes={PAGE_SIZES} />
     </div>

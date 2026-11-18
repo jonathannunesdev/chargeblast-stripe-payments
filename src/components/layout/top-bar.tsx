@@ -37,9 +37,9 @@ function IconButton({
     <button
       type="button"
       aria-label={label}
-      className="relative grid size-8 cursor-pointer place-content-center rounded-md text-ink-muted hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+      className="relative grid size-8 cursor-pointer place-content-center rounded-md hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
     >
-      <Icon className="size-5 stroke-[1.6]" aria-hidden />
+      <Icon className="size-5 stroke-2 text-ink-body" aria-hidden />
       {children}
     </button>
   );
@@ -48,7 +48,7 @@ function IconButton({
 export function TopBar({ search, onSearchChange }: TopBarProps) {
   return (
     <div className="flex h-14 items-center justify-between gap-6">
-      <label className="relative block max-w-[577px] min-w-0 flex-1">
+      <label className="relative block w-[577px] min-w-0 shrink">
         <span className="sr-only">
           Search payments by ID, email or last 4 digits
         </span>
@@ -61,7 +61,7 @@ export function TopBar({ search, onSearchChange }: TopBarProps) {
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Search"
-          className="h-9 w-full rounded-md bg-offset pr-3 pl-8 text-sm text-ink placeholder:text-ink-subdued focus:bg-white focus:shadow-[0_0_0_1px_var(--color-brand),0_0_0_4px_rgba(83,58,253,0.18)] focus:outline-none [&::-webkit-search-cancel-button]:cursor-pointer"
+          className="h-[36.5px] w-full rounded-md bg-offset pr-3 pl-8 text-sm text-ink placeholder:text-ink-subdued focus:bg-white focus:shadow-[0_0_0_1px_var(--color-brand),0_0_0_4px_rgba(83,58,253,0.18)] focus:outline-none [&::-webkit-search-cancel-button]:cursor-pointer"
         />
       </label>
       <div className="flex shrink-0 items-center pr-2.5">
@@ -83,7 +83,7 @@ export function TopBar({ search, onSearchChange }: TopBarProps) {
             </span>
           ))}
           <Squares2X2Icon
-            className="size-[18px] stroke-[1.75] text-ink-muted"
+            className="size-5 stroke-2 text-ink-body"
             aria-label="Apps"
           />
         </div>
@@ -91,7 +91,7 @@ export function TopBar({ search, onSearchChange }: TopBarProps) {
           <IconButton label="Help" icon={QuestionMarkCircleIcon} />
           <IconButton label="Notifications" icon={BellIcon}>
             <span
-              className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-[#2f70e1] ring-2 ring-white"
+              className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-[#0072e9] ring-2 ring-white"
               aria-hidden
             />
           </IconButton>

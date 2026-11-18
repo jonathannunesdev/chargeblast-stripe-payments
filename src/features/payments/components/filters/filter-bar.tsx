@@ -1,10 +1,9 @@
 "use client";
 
-import {
-  ArrowUpTrayIcon,
-  Cog6ToothIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { Cog6ToothIcon } from "@heroicons/react/16/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
+
+import { ExportIcon } from "@/components/icons/nav-icons";
 
 import { Button } from "@/components/ui/button";
 
@@ -140,7 +139,7 @@ export function FilterBar({ filters, now, onChange }: FilterBarProps) {
           )}
         </FilterChip>
         <span
-          className="inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line pr-2.5 pl-[7px] text-xs font-semibold whitespace-nowrap text-ink-subdued"
+          className="inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line pr-2.5 pl-[7px] text-xs font-medium whitespace-nowrap text-ink-subdued"
           aria-disabled="true"
           title="Not available in this demo"
         >
@@ -153,17 +152,11 @@ export function FilterBar({ filters, now, onChange }: FilterBarProps) {
       </div>
       <div className="flex shrink-0 items-center gap-2">
         <Button>
-          <ArrowUpTrayIcon
-            className="size-3.5 stroke-2 text-ink-muted"
-            aria-hidden
-          />
+          <ExportIcon className="size-4 text-ink-body" />
           Export
         </Button>
         <Button>
-          <Cog6ToothIcon
-            className="size-3.5 stroke-2 text-ink-muted"
-            aria-hidden
-          />
+          <Cog6ToothIcon className="size-3.5 text-ink-body" aria-hidden />
           Edit columns
         </Button>
       </div>

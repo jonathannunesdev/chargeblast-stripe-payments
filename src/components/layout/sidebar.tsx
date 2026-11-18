@@ -1,21 +1,22 @@
-import {
-  ArrowsRightLeftIcon,
-  BanknotesIcon,
-  ChartBarIcon,
-  ClockIcon,
-  CommandLineIcon,
-  CubeIcon,
-  DocumentTextIcon,
-  EllipsisHorizontalIcon,
-  HomeIcon,
-  RocketLaunchIcon,
-  Square3Stack3DIcon,
-  UserIcon,
-  WalletIcon,
-} from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { clsx } from "clsx";
 import type { ComponentType, SVGProps } from "react";
+
+import {
+  BalancesIcon,
+  BillingIcon,
+  ConnectIcon,
+  CustomersIcon,
+  DevelopersIcon,
+  HistoryIcon,
+  HomeIcon,
+  MoreIcon,
+  PinIcon,
+  ProductCatalogIcon,
+  ReportingIcon,
+  TransactionsIcon,
+  WalletIcon,
+} from "@/components/icons/nav-icons";
 
 import { AccountMenu } from "./account-menu";
 
@@ -30,25 +31,25 @@ interface NavItem {
 
 const MAIN_ITEMS: NavItem[] = [
   { label: "Home", icon: HomeIcon },
-  { label: "Balances", icon: BanknotesIcon },
-  { label: "Transactions", icon: ArrowsRightLeftIcon, href: "/payments" },
-  { label: "Customers", icon: UserIcon },
-  { label: "Product catalog", icon: CubeIcon },
+  { label: "Balances", icon: BalancesIcon },
+  { label: "Transactions", icon: TransactionsIcon, href: "/payments" },
+  { label: "Customers", icon: CustomersIcon },
+  { label: "Product catalog", icon: ProductCatalogIcon },
 ];
 
 const SHORTCUT_ITEMS: NavItem[] = [
-  { label: "Payments analytics", icon: RocketLaunchIcon },
-  { label: "Reports", icon: ClockIcon },
-  { label: "Sigma", icon: ClockIcon },
-  { label: "Radar", icon: ClockIcon },
+  { label: "Payments analytics", icon: PinIcon },
+  { label: "Reports", icon: HistoryIcon },
+  { label: "Sigma", icon: HistoryIcon },
+  { label: "Radar", icon: HistoryIcon },
 ];
 
 const PRODUCT_ITEMS: NavItem[] = [
-  { label: "Connect", icon: Square3Stack3DIcon, expandable: true },
+  { label: "Connect", icon: ConnectIcon, expandable: true },
   { label: "Payments", icon: WalletIcon, expandable: true },
-  { label: "Billing", icon: DocumentTextIcon, expandable: true },
-  { label: "Reporting", icon: ChartBarIcon, expandable: true },
-  { label: "More", icon: EllipsisHorizontalIcon, expandable: true },
+  { label: "Billing", icon: BillingIcon, expandable: true },
+  { label: "Reporting", icon: ReportingIcon, expandable: true },
+  { label: "More", icon: MoreIcon, expandable: true },
 ];
 
 const ACTIVE_HREF = "/payments";
@@ -69,8 +70,7 @@ function NavLink({ item }: { item: NavItem }) {
         )}
       >
         <Icon
-          className={clsx("size-5", active ? "text-brand" : "text-ink-muted")}
-          aria-hidden
+          className={clsx("size-5", active ? "text-brand" : "text-ink-body")}
         />
         <span className="flex-1 truncate">{item.label}</span>
         {item.expandable && (
@@ -103,7 +103,7 @@ function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
 
 export function Sidebar() {
   return (
-    <aside className="sticky top-0 flex h-screen w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
+    <aside className="flex h-full w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
       <div className="pt-2.5 pr-4 pl-2.5">
         <AccountMenu />
       </div>
@@ -115,12 +115,12 @@ export function Sidebar() {
         <NavSection title="Shortcuts" items={SHORTCUT_ITEMS} />
         <NavSection title="Products" items={PRODUCT_ITEMS} />
       </nav>
-      <div className="pr-4 pb-3 pl-2.5">
+      <div className="pr-4 pl-2.5">
         <a
           href="#"
           className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
         >
-          <CommandLineIcon className="size-5 text-ink-muted" aria-hidden />
+          <DevelopersIcon className="size-5 text-ink-body" />
           Developers
         </a>
       </div>

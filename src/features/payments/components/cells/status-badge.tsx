@@ -21,7 +21,7 @@ const STATUS_APPEARANCE: Record<
   succeeded: {
     variant: "success",
     Icon: CheckIcon,
-    iconClassName: "size-4 stroke-[2.6] text-[#228403]",
+    iconClassName: "size-4 stroke-[2.6] text-success-icon",
   },
   pending: {
     variant: "neutral",
@@ -31,7 +31,7 @@ const STATUS_APPEARANCE: Record<
   failed: {
     variant: "danger",
     Icon: XMarkIcon,
-    iconClassName: "size-4 stroke-[2.6] text-[#df1b41]",
+    iconClassName: "size-4 stroke-[2.6] text-danger-icon",
   },
   refunded: {
     variant: "neutral",
@@ -46,7 +46,7 @@ const STATUS_APPEARANCE: Record<
   blocked: {
     variant: "danger",
     Icon: MinusCircleIcon,
-    iconClassName: "ml-0.5 size-3.5 stroke-2 text-[#df1b41]",
+    iconClassName: "ml-0.5 size-3.5 stroke-2 text-danger-icon",
   },
   disputed: {
     variant: "warning",

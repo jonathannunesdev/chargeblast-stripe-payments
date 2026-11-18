@@ -20,7 +20,7 @@ export function Badge({ variant, icon, children }: BadgeProps) {
   return (
     <span
       className={clsx(
-        "inline-flex h-5 items-center gap-0.5 rounded border pr-1 pl-[7px] text-xs whitespace-nowrap",
+        "inline-flex h-5 items-center gap-0.5 rounded border pr-1 pl-[7px] text-xs font-medium whitespace-nowrap",
         VARIANT_CLASSES[variant],
       )}
     >

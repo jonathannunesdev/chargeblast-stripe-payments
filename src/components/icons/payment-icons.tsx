@@ -38,7 +38,7 @@ function Wordmark({ children, fill }: { children: string; fill: string }) {
 export function VisaIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="3" fill="#22569a" />
+      <rect width="32" height="32" rx="3" fill="#00579f" />
       <Wordmark fill="#ffffff">VISA</Wordmark>
     </Tile>
   );
@@ -100,13 +100,13 @@ export function UnknownCardIcon(props: IconProps) {
 export function LinkWalletIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="3" fill="#61d37a" />
+      <rect width="32" height="32" rx="3" fill="#00d66f" />
       <path
-        d="m12 9 8 7-8 7"
+        d="m12 8.5 8 7.5-8 7.5"
         fill="none"
         stroke="#011e0f"
-        strokeWidth="3.2"
-        strokeLinejoin="round"
+        strokeWidth="4.4"
+        strokeLinejoin="miter"
       />
     </Tile>
   );
