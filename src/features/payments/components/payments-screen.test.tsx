@@ -28,6 +28,7 @@ import { PaymentsScreen } from "./payments-screen";
 
 vi.mock("@/lib/download", () => ({ downloadFile: vi.fn() }));
 
+
 async function renderScreen() {
   const user = userEvent.setup();
   render(
@@ -67,6 +68,7 @@ async function expectedCount(filters: Partial<PaymentFilters>) {
 describe("PaymentsScreen", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+    window.history.replaceState(null, "", "/payments");
   });
 
   it("shows the newest 25 payments first", async () => {
@@ -74,6 +76,30 @@ describe("PaymentsScreen", () => {
     expect(dataRows()).toHaveLength(25);
     expect(footerText()).toBe("Viewing 1–25 of 500 results");
     expect(within(dataRows()[0]!).getByText("$9.88")).toBeInTheDocument();
+  });
+
+  it("keeps the filters in the URL", async () => {
+    const user = await renderScreen();
+    await user.click(
+      screen.getByRole("button", { name: "Failed", pressed: false }),
+    );
+    await user.type(screen.getByRole("searchbox"), "gmail");
+
+    expect(window.location.search).toBe("?status=failed&q=gmail");
+  });
+
+  it("applies the filters from a shared link", async () => {
+    window.history.replaceState(null, "", "/payments?status=failed&min=5");
+    await renderScreen();
+
+    const count = await expectedCount({
+      statuses: ["failed"],
+      amount: { min: 5, max: null },
+    });
+    expect(footerText()).toBe(viewing(count));
+    expect(
+      screen.getByRole("button", { name: "Clear Amount filter" }),
+    ).toBeInTheDocument();
   });
 
   it("filters by status from the quick filters", async () => {
