@@ -187,6 +187,33 @@ describe("PaymentsScreen", () => {
     );
   });
 
+  it("explains a failed status on hover", async () => {
+    const user = await renderScreen();
+    const [firstRow] = dataRows();
+
+    await user.hover(within(firstRow!).getByText("Failed"));
+
+    expect(await screen.findByRole("tooltip")).toHaveTextContent(
+      "This payment failed because the issuing bank declined it.",
+    );
+  });
+
+  it("copies the payment ID from the row menu", async () => {
+    const user = await renderScreen();
+    const writeText = vi
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "More actions for payment pi_3kMg5AEfd5tYxm9rM6ynPK98",
+      }),
+    );
+    await user.click(screen.getByRole("button", { name: "Copy payment ID" }));
+
+    expect(writeText).toHaveBeenCalledWith("pi_3kMg5AEfd5tYxm9rM6ynPK98");
+  });
+
   it("exports the filtered payments as CSV", async () => {
     const user = await renderScreen();
     await user.click(

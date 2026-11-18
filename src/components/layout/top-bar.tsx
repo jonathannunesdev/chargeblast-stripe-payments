@@ -13,6 +13,7 @@ import {
   HelpIcon,
 } from "@/components/icons/top-bar-icons";
 import { GearIcon } from "@/components/icons/ui-icons";
+import { Tooltip } from "@/components/ui/tooltip";
 
 interface TopBarProps {
   search: string;
@@ -33,13 +34,15 @@ function IconButton({
   children: ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      aria-label={label}
-      className="relative grid size-8 cursor-pointer place-content-center rounded-md text-icon hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
-    >
-      {children}
-    </button>
+    <Tooltip content={label} side="bottom">
+      <button
+        type="button"
+        aria-label={label}
+        className="relative grid size-8 cursor-pointer place-content-center rounded-md text-icon hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+      >
+        {children}
+      </button>
+    </Tooltip>
   );
 }
 
@@ -93,13 +96,15 @@ export function TopBar({ search, onSearchChange }: TopBarProps) {
           <IconButton label="Settings">
             <GearIcon className="size-4" />
           </IconButton>
-          <button
-            type="button"
-            aria-label="Create"
-            className="ml-2 grid size-5 cursor-pointer place-content-center rounded-full bg-brand-solid text-white hover:bg-brand-solid-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-          >
-            <CreateIcon className="size-5" />
-          </button>
+          <Tooltip content="Create" side="bottom">
+            <button
+              type="button"
+              aria-label="Create"
+              className="ml-2 grid size-5 cursor-pointer place-content-center rounded-full bg-brand-solid text-white hover:bg-brand-solid-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            >
+              <CreateIcon className="size-5" />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>

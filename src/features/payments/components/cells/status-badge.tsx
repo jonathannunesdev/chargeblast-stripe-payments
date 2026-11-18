@@ -9,8 +9,17 @@ import {
 import type { ComponentType, SVGProps } from "react";
 
 import { Badge, type BadgeVariant } from "@/components/ui/badge";
+import { Tooltip } from "@/components/ui/tooltip";
 
-import { STATUS_LABELS, type PaymentStatus } from "../../domain/payment";
+import {
+  STATUS_LABELS,
+  type Payment,
+  type PaymentStatus,
+} from "../../domain/payment";
+import {
+  getStatusDetails,
+  type StatusDetails,
+} from "../../domain/status-details";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -60,14 +69,63 @@ const STATUS_APPEARANCE: Record<
   },
 };
 
-export function StatusBadge({ status }: { status: PaymentStatus }) {
-  const { variant, Icon, iconClassName } = STATUS_APPEARANCE[status];
-  return (
+export function StatusBadge({ payment }: { payment: Payment }) {
+  const { variant, Icon, iconClassName } = STATUS_APPEARANCE[payment.status];
+  const badge = (
     <Badge
       variant={variant}
       icon={<Icon className={iconClassName} aria-hidden />}
     >
-      {STATUS_LABELS[status]}
+      {STATUS_LABELS[payment.status]}
     </Badge>
+  );
+
+  const details = getStatusDetails(payment);
+  if (!details) return badge;
+
+  return (
+    <Tooltip
+      side="bottom"
+      size="lg"
+      content={<StatusDetailsText details={details} />}
+    >
+      <span
+        tabIndex={0}
+        className="inline-flex cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-brand"
+      >
+        {badge}
+      </span>
+    </Tooltip>
+  );
+}
+
+function StatusDetailsText({ details }: { details: StatusDetails }) {
+  return (
+    <>
+      {details.title && <p className="font-semibold">{details.title}</p>}
+      <p>
+        {details.body}
+        {details.mentionsTimeline && (
+          <>
+            {" "}
+            Find more details on the{" "}
+            <span className="text-brand">payment timeline</span>.
+          </>
+        )}
+        {details.learnMoreHref && (
+          <>
+            {" "}
+            <a
+              href={details.learnMoreHref}
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand hover:underline"
+            >
+              Learn more
+            </a>
+          </>
+        )}
+      </p>
+    </>
   );
 }

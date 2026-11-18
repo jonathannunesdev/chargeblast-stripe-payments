@@ -10,17 +10,19 @@ interface PopoverContentProps {
   title: string;
   children: ReactNode;
   className?: string;
+  align?: RadixPopover.PopoverContentProps["align"];
 }
 
 export function PopoverContent({
   title,
   children,
   className,
+  align = "start",
 }: PopoverContentProps) {
   return (
     <RadixPopover.Portal>
       <RadixPopover.Content
-        align="start"
+        align={align}
         sideOffset={6}
         aria-label={title}
         className={

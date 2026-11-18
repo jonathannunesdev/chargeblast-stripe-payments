@@ -165,7 +165,7 @@ export function PaymentsTable({
                 <tr
                   key={row.id}
                   data-selected={row.getIsSelected() || undefined}
-                  className="group/row hover:bg-hover"
+                  className="group/row cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => {
                     const meta = cell.column.columnDef.meta;
@@ -173,7 +173,7 @@ export function PaymentsTable({
                       <td
                         key={cell.id}
                         className={clsx(
-                          "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
+                          "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-hover/row:bg-hover group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
                           ALIGN_CLASSES[meta?.align ?? "left"],
                           meta?.className,
                         )}

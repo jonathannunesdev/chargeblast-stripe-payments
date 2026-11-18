@@ -1,4 +1,3 @@
-import { EllipsisHorizontalIcon } from "@heroicons/react/16/solid";
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +14,7 @@ import { CopyableId } from "./cells/copyable-id";
 import { DateCell } from "./cells/date-cell";
 import { EmptyValue } from "./cells/empty-value";
 import { PaymentMethodCell } from "./cells/payment-method-cell";
+import { RowActions } from "./cells/row-actions";
 import { StatusBadge } from "./cells/status-badge";
 
 declare module "@tanstack/react-table" {
@@ -76,7 +76,7 @@ export function createPaymentColumns(now: number) {
     }),
     column.accessor("status", {
       header: "Status",
-      cell: ({ getValue }) => <StatusBadge status={getValue()} />,
+      cell: ({ row }) => <StatusBadge payment={row.original} />,
       sortingFn: (a, b) => compareByStatus(a.original, b.original),
       meta: { width: 121, revealHeaderOnHover: true },
     }),
@@ -146,20 +146,12 @@ export function createPaymentColumns(now: number) {
     column.display({
       id: "actions",
       header: () => <span className="sr-only">Actions</span>,
-      cell: ({ row }) => (
-        <button
-          type="button"
-          aria-label={`More actions for payment ${row.original.id}`}
-          className="grid size-6 cursor-pointer place-content-center rounded text-ink-muted hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
-        >
-          <EllipsisHorizontalIcon className="size-4" aria-hidden />
-        </button>
-      ),
+      cell: ({ row }) => <RowActions payment={row.original} />,
       meta: {
         width: 41,
         align: "center",
         className:
-          "sticky right-0 z-10 bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover [&>*]:mx-auto",
+          "sticky right-0 z-10 overflow-visible! bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover",
       },
     }),
   ];
