@@ -1,4 +1,10 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -212,6 +218,53 @@ describe("PaymentsScreen", () => {
     await user.click(screen.getByRole("button", { name: "Copy payment ID" }));
 
     expect(writeText).toHaveBeenCalledWith("pi_3kMg5AEfd5tYxm9rM6ynPK98");
+  });
+
+  it("reorders columns by dragging a header", async () => {
+    await renderScreen();
+    const header = (name: string) => screen.getByRole("columnheader", { name });
+    // jsdom has no layout, so give each header its width from the table.
+    for (const th of screen.getAllByRole("columnheader")) {
+      const index = [...th.parentElement!.children].indexOf(th);
+      const widths = [...document.querySelectorAll("colgroup col")].map((col) =>
+        Number.parseFloat((col as HTMLElement).style.width),
+      );
+      const left = widths.slice(0, index).reduce((a, b) => a + b, 0);
+      th.getBoundingClientRect = () =>
+        ({
+          left,
+          width: widths[index]!,
+          right: left + widths[index]!,
+        }) as DOMRect;
+    }
+
+    fireEvent.pointerDown(header("Amount"), { button: 0, clientX: 60 });
+    fireEvent.pointerMove(window, { clientX: 700 });
+    fireEvent.pointerUp(window, { clientX: 700 });
+
+    const names = screen
+      .getAllByRole("columnheader")
+      .map((th) => th.textContent);
+    expect(names.indexOf("Amount")).toBeGreaterThan(names.indexOf("Customer"));
+    expect(names.indexOf("Currency")).toBe(names.indexOf("Amount") + 1);
+    expect(names[0]).toBe("");
+    expect(names.at(-1)).toBe("Actions");
+  });
+
+  it("resizes a column by dragging its edge", async () => {
+    await renderScreen();
+    const customer = screen.getByRole("columnheader", { name: "Customer" });
+    const column = () =>
+      document.querySelectorAll("colgroup col")[
+        [...customer.parentElement!.children].indexOf(customer)
+      ] as HTMLElement;
+    const handle = customer.querySelector(".cursor-col-resize")!;
+
+    fireEvent.mouseDown(handle, { clientX: 500 });
+    fireEvent.mouseMove(document, { clientX: 420, buttons: 1 });
+    fireEvent.mouseUp(document, { clientX: 420 });
+
+    expect(column().style.width).toBe("192px");
   });
 
   it("exports the filtered payments as CSV", async () => {

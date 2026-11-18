@@ -20,8 +20,6 @@ import { StatusBadge } from "./cells/status-badge";
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData, TValue> {
-    /** Column width in px, measured from the reference screenshot. */
-    width: number;
     align?: "left" | "right" | "center";
     revealHeaderOnHover?: boolean;
     className?: string;
@@ -30,6 +28,7 @@ declare module "@tanstack/react-table" {
 
 const column = createColumnHelper<Payment>();
 
+/** Default column sizes are measured from the reference screenshot. */
 export function createPaymentColumns(now: number) {
   return [
     column.display({
@@ -50,7 +49,10 @@ export function createPaymentColumns(now: number) {
           onChange={row.getToggleSelectedHandler()}
         />
       ),
-      meta: { width: 26, align: "center", className: "px-[5px]" },
+      size: 26,
+      minSize: 26,
+      enableResizing: false,
+      meta: { align: "center", className: "px-[5px]" },
     }),
     column.accessor("amount", {
       header: "Amount",
@@ -62,7 +64,8 @@ export function createPaymentColumns(now: number) {
       ),
       sortingFn: (a, b) => compareByAmount(a.original, b.original),
       sortDescFirst: true,
-      meta: { width: 91, align: "right", className: "pr-2 pl-1.5" },
+      size: 91,
+      meta: { align: "right", className: "pr-2 pl-1.5" },
     }),
     column.accessor("currency", {
       header: () => <span className="sr-only">Currency</span>,
@@ -72,19 +75,20 @@ export function createPaymentColumns(now: number) {
         </span>
       ),
       enableSorting: false,
-      meta: { width: 41 },
+      size: 41,
     }),
     column.accessor("status", {
       header: "Status",
       cell: ({ row }) => <StatusBadge payment={row.original} />,
       sortingFn: (a, b) => compareByStatus(a.original, b.original),
-      meta: { width: 121, revealHeaderOnHover: true },
+      size: 121,
+      meta: { revealHeaderOnHover: true },
     }),
     column.accessor("paymentMethod", {
       header: "Payment method",
       cell: ({ getValue }) => <PaymentMethodCell method={getValue()} />,
       enableSorting: false,
-      meta: { width: 145 },
+      size: 145,
     }),
     column.accessor("description", {
       header: "Description",
@@ -92,7 +96,7 @@ export function createPaymentColumns(now: number) {
         <span className="text-ink-subdued">{getValue()}</span>
       ),
       enableSorting: false,
-      meta: { width: 156 },
+      size: 156,
     }),
     column.accessor("customerEmail", {
       header: "Customer",
@@ -100,14 +104,14 @@ export function createPaymentColumns(now: number) {
         <span className="text-ink-subdued">{getValue()}</span>
       ),
       enableSorting: false,
-      meta: { width: 272 },
+      size: 272,
     }),
     column.accessor("created", {
       header: "Date",
       cell: ({ getValue }) => <DateCell timestamp={getValue()} now={now} />,
       sortingFn: (a, b) => compareByCreated(a.original, b.original),
       sortDescFirst: true,
-      meta: { width: 136 },
+      size: 136,
     }),
     column.accessor("refundedAt", {
       header: "Refunded date",
@@ -122,7 +126,7 @@ export function createPaymentColumns(now: number) {
         );
       },
       enableSorting: false,
-      meta: { width: 115 },
+      size: 115,
     }),
     column.accessor("declineReason", {
       header: "Decline reason",
@@ -135,20 +139,21 @@ export function createPaymentColumns(now: number) {
         );
       },
       enableSorting: false,
-      meta: { width: 180 },
+      size: 180,
     }),
     column.accessor("id", {
       header: "Payment ID",
       cell: ({ getValue }) => <CopyableId id={getValue()} />,
       enableSorting: false,
-      meta: { width: 190 },
+      size: 190,
     }),
     column.display({
       id: "actions",
       header: () => <span className="sr-only">Actions</span>,
       cell: ({ row }) => <RowActions payment={row.original} />,
+      size: 41,
+      enableResizing: false,
       meta: {
-        width: 41,
         align: "center",
         className:
           "sticky right-0 z-10 overflow-visible! bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover",

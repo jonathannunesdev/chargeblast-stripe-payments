@@ -7,15 +7,24 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  type ColumnOrderState,
+  type ColumnSizingState,
+  type Header,
   type PaginationState,
   type SortingState,
 } from "@tanstack/react-table";
 import { clsx } from "clsx";
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 
 import { Button } from "@/components/ui/button";
 
 import type { Payment } from "../domain/payment";
+import { columnGroup, isPinnedColumn, reorderByPosition } from "./column-order";
 import { createPaymentColumns } from "./columns";
 import { TableFooter } from "./table-footer";
 
@@ -46,13 +55,21 @@ export function PaymentsTable({
     pageSize: PAGE_SIZES[0],
   });
   const [rowSelection, setRowSelection] = useState({});
+  const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+  const [dragged, setDragged] = useState<{
+    ids: string[];
+    offset: number;
+  } | null>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
+  const suppressClick = useRef(false);
 
   // TanStack Table returns non-memoizable functions; the React Compiler is off.
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: payments,
     columns,
-    state: { sorting, pagination, rowSelection },
+    state: { sorting, pagination, rowSelection, columnOrder, columnSizing },
     onSortingChange: (updater) => {
       onSortingChange(
         typeof updater === "function" ? updater(sorting) : updater,
@@ -61,6 +78,11 @@ export function PaymentsTable({
     },
     onPaginationChange: setPagination,
     onRowSelectionChange: setRowSelection,
+    onColumnOrderChange: setColumnOrder,
+    onColumnSizingChange: setColumnSizing,
+    enableColumnResizing: true,
+    columnResizeMode: "onChange",
+    defaultColumn: { minSize: 40 },
     getRowId: (payment) => payment.id,
     enableRowSelection: (row) => row.original.status === "succeeded",
     enableSortingRemoval: false,
@@ -70,18 +92,86 @@ export function PaymentsTable({
   });
 
   const columnCount = table.getVisibleLeafColumns().length;
+  const currentOrder = table.getAllLeafColumns().map((column) => column.id);
+
+  /** Drags a header: the column follows the pointer and the others move aside. */
+  function startColumnDrag(event: ReactPointerEvent, columnId: string) {
+    const target = event.target as HTMLElement;
+    if (event.button !== 0 || target.closest("[data-resize-handle]")) return;
+    const tableElement = tableRef.current;
+    if (!tableElement) return;
+
+    const widths: Record<string, number> = {};
+    const lefts: Record<string, number> = {};
+    const tableLeft = tableElement.getBoundingClientRect().left;
+    for (const th of tableElement.querySelectorAll<HTMLElement>(
+      "th[data-column-id]",
+    )) {
+      const rect = th.getBoundingClientRect();
+      widths[th.dataset.columnId!] = rect.width;
+      lefts[th.dataset.columnId!] = rect.left - tableLeft;
+    }
+
+    let order = currentOrder;
+    const groupLeft = lefts[columnGroup(order, columnId)[0]!] ?? 0;
+    const grabOffset = event.clientX - tableLeft - groupLeft;
+    const startX = event.clientX;
+    let active = false;
+
+    function onMove(moveEvent: PointerEvent) {
+      if (!active && Math.abs(moveEvent.clientX - startX) < 4) return;
+      active = true;
+      document.body.style.cursor = "grabbing";
+      const left = tableElement!.getBoundingClientRect().left;
+      const pointer = moveEvent.clientX - left;
+      const next = reorderByPosition(order, widths, columnId, {
+        pointer,
+        left: pointer - grabOffset,
+      });
+      order = next.order;
+      setColumnOrder(next.order);
+      setDragged({
+        ids: columnGroup(next.order, columnId),
+        offset: next.offset,
+      });
+    }
+
+    function onUp() {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      document.body.style.cursor = "";
+      if (!active) return;
+      suppressClick.current = true;
+      setTimeout(() => {
+        suppressClick.current = false;
+      });
+      setDragged(null);
+    }
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  }
+
+  function draggedStyle(columnId: string) {
+    return dragged?.ids.includes(columnId)
+      ? { transform: `translateX(${dragged.offset}px)` }
+      : undefined;
+  }
 
   return (
     <div>
       <div className="relative">
         <div className="overflow-x-auto">
-          <table className="w-max min-w-full table-fixed border-separate border-spacing-0 text-sm">
+          <table
+            ref={tableRef}
+            className={clsx(
+              "w-max min-w-full table-fixed border-separate border-spacing-0 text-sm",
+              dragged && "[&_*]:cursor-grabbing!",
+            )}
+          >
             <colgroup>
               {table.getVisibleLeafColumns().map((column) => (
-                <col
-                  key={column.id}
-                  style={{ width: column.columnDef.meta?.width }}
-                />
+                <col key={column.id} style={{ width: column.getSize() }} />
               ))}
             </colgroup>
             <thead className="group/head">
@@ -99,6 +189,19 @@ export function PaymentsTable({
                       <th
                         key={header.id}
                         scope="col"
+                        data-column-id={header.column.id}
+                        style={draggedStyle(header.column.id)}
+                        onPointerDown={
+                          isPinnedColumn(header.column.id)
+                            ? undefined
+                            : (event) =>
+                                startColumnDrag(event, header.column.id)
+                        }
+                        onClickCapture={(event) => {
+                          if (!suppressClick.current) return;
+                          event.preventDefault();
+                          event.stopPropagation();
+                        }}
                         aria-sort={
                           sorted === "asc"
                             ? "ascending"
@@ -109,15 +212,21 @@ export function PaymentsTable({
                         className={clsx(
                           "h-[38px] border-y border-t-line border-b-line-subtle bg-white px-1.5 text-xs font-bold whitespace-nowrap text-ink",
                           ALIGN_CLASSES[meta?.align ?? "left"],
+                          !isPinnedColumn(header.column.id) &&
+                            "relative cursor-grab touch-none select-none",
+                          dragged?.ids.includes(header.column.id) && "z-20",
                           meta?.className,
                         )}
                       >
+                        {header.column.getCanResize() && (
+                          <ResizeHandle header={header} />
+                        )}
                         {header.column.getCanSort() ? (
                           <button
                             type="button"
                             onClick={header.column.getToggleSortingHandler()}
                             className={clsx(
-                              "group/sort inline-flex cursor-pointer items-center gap-0.5 rounded-sm focus-visible:outline-2 focus-visible:outline-brand",
+                              "group/sort inline-flex cursor-[inherit] items-center gap-0.5 rounded-sm focus-visible:outline-2 focus-visible:outline-brand",
                               meta?.align === "right" && "flex-row-reverse",
                               meta?.revealHeaderOnHover &&
                                 !sorted &&
@@ -172,9 +281,12 @@ export function PaymentsTable({
                     return (
                       <td
                         key={cell.id}
+                        style={draggedStyle(cell.column.id)}
                         className={clsx(
                           "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-hover/row:bg-hover group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
                           ALIGN_CLASSES[meta?.align ?? "left"],
+                          dragged?.ids.includes(cell.column.id) &&
+                            "relative z-20 bg-white!",
                           meta?.className,
                         )}
                       >
@@ -198,6 +310,23 @@ export function PaymentsTable({
       </div>
       <TableFooter table={table} pageSizes={PAGE_SIZES} />
     </div>
+  );
+}
+
+function ResizeHandle({ header }: { header: Header<Payment, unknown> }) {
+  const resize = header.getResizeHandler();
+  return (
+    <span
+      aria-hidden
+      data-resize-handle
+      onMouseDown={resize}
+      onTouchStart={resize}
+      onDoubleClick={() => header.column.resetSize()}
+      className={clsx(
+        "absolute inset-y-2 -right-0.5 z-10 w-1 cursor-col-resize touch-none rounded-full select-none hover:bg-line",
+        header.column.getIsResizing() && "bg-brand-solid hover:bg-brand-solid",
+      )}
+    />
   );
 }
 

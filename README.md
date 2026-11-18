@@ -16,6 +16,7 @@ A rebuild of the Payments screen from the Stripe Dashboard (Transactions → Pay
 - Client-side pagination with 25, 50 or 100 rows per page (click the range in "Viewing 1–25 of …")
 - Row selection for refundable (succeeded) payments
 - Status tooltips with the reason behind each status, and row actions on hover (refund, send receipt, copy payment ID)
+- Columns can be reordered by dragging their header and resized from the header edge (double-click to reset)
 
 **Filters** (all combinable)
 
@@ -77,12 +78,12 @@ Filtering, sorting and formatting live in plain functions under `domain/`, indep
 - **Fixed clock.** The reference shows dates on Aug 16, so the app treats Aug 16, 2026, 5:05 PM as "now". Date presets and relative times work against that date.
 - **Amounts.** Stored in the currency's smallest unit, as in the Stripe API, with zero-decimal currencies (JPY) handled. The amount filter and sorting compare face values across currencies, without exchange rates.
 - **Reference vs. brief.** The brief requires a payment ID column, status sorting and 25/50/100 rows per page, which the screenshot does not show. The payment ID column sits after Decline reason, the status header appears on hover, and the page size is chosen from the results range in the footer. This keeps the visible screen identical to the reference.
-- **Hover details.** Status tooltips and row actions follow the current Stripe Dashboard. Actions that need a backend (refund, send receipt, view customer, view payment details) are shown but not available in this demo.
+- **Hover details.** Status tooltips, row actions and column dragging follow the current Stripe Dashboard. Actions that need a backend (refund, send receipt, view customer, view payment details) are shown but not available in this demo.
 - **Icons.** Most sidebar icons and the settings gear come from the [Stripe Dashboard Starter Kit](https://github.com/khoi-stripe/stripe-dash-starter) (MIT). The remaining navigation, button and top bar icons are redrawn from the reference at the size they are shown, matching its stroke weight and color. The Visa, Mastercard, Discover, Link and Apple Pay marks come from the [Stripe iOS SDK](https://github.com/stripe/stripe-ios) (MIT), placed on square tiles sized to the reference.
 
 ## Tests
 
-Unit tests cover filtering, sorting, formatting, status details, CSV export and the data generator. Integration tests render the full screen and cover filters, search, sorting, pagination, status tooltips, row actions, CSV export and the empty state.
+Unit tests cover filtering, sorting, formatting, status details, column ordering, CSV export and the data generator. Integration tests render the full screen and cover filters, search, sorting, pagination, column reorder and resize, status tooltips, row actions, CSV export and the empty state.
 
 ```bash
 npm test
