@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PaymentsPage() {
   return (
-    <main className="pr-[37px] pb-10 pl-[41px]">
+    <main className="px-4 pb-10 lg:pr-[37px] lg:pl-[41px]">
       <PaymentsScreen />
     </main>
   );

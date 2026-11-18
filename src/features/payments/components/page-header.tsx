@@ -16,7 +16,7 @@ const TABS = [
 export function PageHeader() {
   return (
     <header>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-[28px] leading-9 font-bold text-ink-strong">
           Transactions
         </h1>
@@ -37,9 +37,9 @@ export function PageHeader() {
       </div>
       <nav
         aria-label="Transactions"
-        className="mt-1 border-b border-line-subtle"
+        className="mt-1 border-b border-line-subtle max-md:overflow-x-auto"
       >
-        <ul className="flex gap-6">
+        <ul className="flex gap-6 whitespace-nowrap">
           {TABS.map((tab) => {
             const active = tab === "Payments";
             return (

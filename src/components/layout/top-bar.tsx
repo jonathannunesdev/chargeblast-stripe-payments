@@ -1,7 +1,8 @@
 "use client";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
-import { BellIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
+import { clsx } from "clsx";
 import type { ReactNode } from "react";
 
 import {
@@ -14,6 +15,8 @@ import {
 } from "@/components/icons/top-bar-icons";
 import { GearIcon } from "@/components/icons/ui-icons";
 import { Tooltip } from "@/components/ui/tooltip";
+
+import { useSidebar } from "./sidebar-context";
 
 interface TopBarProps {
   search: string;
@@ -30,9 +33,11 @@ const APPS = [
 
 function IconButton({
   label,
+  className,
   children,
 }: {
   label: string;
+  className?: string;
   children: ReactNode;
 }) {
   return (
@@ -40,7 +45,10 @@ function IconButton({
       <button
         type="button"
         aria-label={label}
-        className="relative grid size-8 cursor-pointer place-content-center rounded-md text-icon hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+        className={clsx(
+          "relative grid size-8 cursor-pointer place-content-center rounded-md text-icon hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand",
+          className,
+        )}
       >
         {children}
       </button>
@@ -53,11 +61,21 @@ export function TopBar({
   onSearchChange,
   onSearchSubmit,
 }: TopBarProps) {
+  const { setOpen } = useSidebar();
+
   return (
-    <div className="flex h-14 items-center justify-between gap-6">
+    <div className="flex h-14 items-center justify-between gap-3 lg:gap-6">
+      <button
+        type="button"
+        aria-label="Open navigation"
+        onClick={() => setOpen(true)}
+        className="-ml-1.5 grid size-8 shrink-0 cursor-pointer place-content-center rounded-md text-icon hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand lg:hidden"
+      >
+        <Bars3Icon className="size-5 stroke-2" aria-hidden />
+      </button>
       <form
         role="search"
-        className="w-[577px] min-w-0 shrink"
+        className="min-w-0 flex-1 lg:w-[577px] lg:flex-initial"
         onSubmit={(event) => {
           event.preventDefault();
           onSearchSubmit?.();
@@ -81,13 +99,13 @@ export function TopBar({
         </label>
       </form>
       <div className="flex shrink-0 items-center pr-[3px]">
-        <p className="text-sm text-ink-body">
+        <p className="hidden text-sm whitespace-nowrap text-ink-body xl:block">
           Test mode has moved.{" "}
           <a href="#" className="ml-2 underline underline-offset-2">
             Show me
           </a>
         </p>
-        <div className="ml-6 flex h-9 items-center gap-[16.75px] rounded-full px-2.5 shadow-[inset_0_0_0_1px_var(--color-line-subtle)]">
+        <div className="ml-6 hidden h-9 items-center gap-[16.75px] rounded-full px-2.5 shadow-[inset_0_0_0_1px_var(--color-line-subtle)] lg:flex">
           {APPS.map(({ label, Logo }) => (
             <span key={label} role="img" aria-label={label}>
               <Logo className="size-4" />
@@ -98,7 +116,7 @@ export function TopBar({
           </span>
         </div>
         <div className="ml-[17.5px] flex items-center gap-[9px]">
-          <IconButton label="Help">
+          <IconButton label="Help" className="max-sm:hidden">
             <HelpIcon className="size-5" />
           </IconButton>
           <IconButton label="Notifications">
@@ -108,7 +126,7 @@ export function TopBar({
               aria-hidden
             />
           </IconButton>
-          <IconButton label="Settings">
+          <IconButton label="Settings" className="max-sm:hidden">
             <GearIcon className="size-4" />
           </IconButton>
           <Tooltip content="Create" side="bottom">

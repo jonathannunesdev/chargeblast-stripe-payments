@@ -1,6 +1,8 @@
+"use client";
+
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { clsx } from "clsx";
-import type { ComponentType, SVGProps } from "react";
+import { useEffect, type ComponentType, type SVGProps } from "react";
 
 import {
   BalancesIcon,
@@ -19,6 +21,7 @@ import {
 } from "@/components/icons/nav-icons";
 
 import { AccountMenu } from "./account-menu";
+import { useSidebar } from "./sidebar-context";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -102,32 +105,61 @@ function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
 }
 
 export function Sidebar() {
+  const { open, setOpen } = useSidebar();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, setOpen]);
+
   return (
-    <aside className="relative flex h-full w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
-      <span
-        aria-hidden
-        className="absolute top-[583.5px] -right-[10px] h-3.5 w-0.5 rounded-full bg-[#b5c0cd]"
-      />
-      <div className="pt-2.5 pr-4 pl-2.5">
-        <AccountMenu />
-      </div>
-      <nav
-        aria-label="Main"
-        className="mt-[33px] flex-1 overflow-y-auto pr-4 pl-2.5"
+    <>
+      {open && (
+        <div
+          aria-hidden
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-40 bg-black/30 lg:hidden"
+        />
+      )}
+      <aside
+        onClick={(event) => {
+          if ((event.target as HTMLElement).closest("a")) setOpen(false);
+        }}
+        className={clsx(
+          "flex h-full w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white",
+          "max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-50 max-lg:transition-[transform,visibility] max-lg:duration-200 lg:relative",
+          !open && "max-lg:invisible max-lg:-translate-x-full",
+        )}
       >
-        <NavSection items={MAIN_ITEMS} />
-        <NavSection title="Shortcuts" items={SHORTCUT_ITEMS} />
-        <NavSection title="Products" items={PRODUCT_ITEMS} />
-      </nav>
-      <div className="pr-4 pl-2.5">
-        <a
-          href="#"
-          className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm font-[430] hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
+        <span
+          aria-hidden
+          className="absolute top-[583.5px] -right-[10px] hidden h-3.5 w-0.5 rounded-full bg-[#b5c0cd] lg:block"
+        />
+        <div className="pt-2.5 pr-4 pl-2.5">
+          <AccountMenu />
+        </div>
+        <nav
+          aria-label="Main"
+          className="mt-[33px] flex-1 overflow-y-auto pr-4 pl-2.5"
         >
-          <DevelopersIcon className="size-5 text-ink-muted" />
-          Developers
-        </a>
-      </div>
-    </aside>
+          <NavSection items={MAIN_ITEMS} />
+          <NavSection title="Shortcuts" items={SHORTCUT_ITEMS} />
+          <NavSection title="Products" items={PRODUCT_ITEMS} />
+        </nav>
+        <div className="pr-4 pl-2.5">
+          <a
+            href="#"
+            className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm font-[430] hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
+          >
+            <DevelopersIcon className="size-5 text-ink-muted" />
+            Developers
+          </a>
+        </div>
+      </aside>
+    </>
   );
 }

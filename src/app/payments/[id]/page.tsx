@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function PaymentPage() {
   return (
-    <main className="pr-[37px] pb-10 pl-[41px]">
+    <main className="px-4 pb-10 lg:pr-[37px] lg:pl-[41px]">
       {/* The payment ID comes from the URL, so this part renders on request. */}
       <Suspense fallback={<DetailsSkeleton />}>
         <PaymentDetailsScreen />

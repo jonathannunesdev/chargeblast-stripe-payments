@@ -18,7 +18,11 @@ interface StatusTabsProps {
 
 export function StatusTabs({ selected, onSelect }: StatusTabsProps) {
   return (
-    <div className="flex gap-2" role="group" aria-label="Quick status filters">
+    <div
+      className="flex gap-2 max-lg:overflow-x-auto"
+      role="group"
+      aria-label="Quick status filters"
+    >
       {QUICK_FILTERS.map((status) => {
         const active =
           status === null
@@ -32,7 +36,7 @@ export function StatusTabs({ selected, onSelect }: StatusTabsProps) {
             aria-pressed={active}
             onClick={() => onSelect(status === null ? [] : [status])}
             className={clsx(
-              "flex h-[46px] min-w-0 flex-1 cursor-pointer items-center rounded-md bg-white px-3 text-left text-sm whitespace-nowrap",
+              "flex h-[46px] min-w-fit flex-1 cursor-pointer items-center rounded-md bg-white px-3 text-left text-sm whitespace-nowrap",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
               active
                 ? "font-semibold text-brand shadow-[inset_0_0_0_2px_var(--color-brand-solid)]"

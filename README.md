@@ -51,7 +51,7 @@ Dates are fixed to the reference: the app treats **Aug 16, 2026, 5:05 PM** as "n
 
 **Export:** CSV of the current view (every payment matching the filters, in the current sort order).
 
-**Layout:** sidebar, top bar with account menu, loading and empty states.
+**Layout:** sidebar, top bar with account menu, loading and empty states. Responsive: the desktop layout matches the reference from 1024px up; below that the sidebar becomes a drawer opened from the top bar, the tabs scroll and the table scrolls horizontally.
 
 ## Getting started
 

@@ -76,7 +76,7 @@ function PaymentDetails({ payment }: { payment: Payment }) {
 
   return (
     <>
-      <header className="mt-1 flex items-start justify-between gap-6">
+      <header className="mt-1 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-3">
             <span className="text-[28px] leading-9 font-bold text-ink-strong">
@@ -115,7 +115,7 @@ function PaymentDetails({ payment }: { payment: Payment }) {
         </div>
       </header>
 
-      <div className="mt-6 flex items-start gap-12">
+      <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
         <div className="min-w-0 flex-1 space-y-10">
           <Section title="Recent activity">
             <ActivityTimeline events={timeline} now={DATASET_NOW} />
@@ -166,7 +166,7 @@ function PaymentDetails({ payment }: { payment: Payment }) {
           </Section>
         </div>
 
-        <aside className="w-[240px] shrink-0 space-y-10">
+        <aside className="space-y-10 lg:w-[240px] lg:shrink-0">
           <Section title="Details">
             <dl className="space-y-4 text-sm">
               <Field label="Payment ID">
