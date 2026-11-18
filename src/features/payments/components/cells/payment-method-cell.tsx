@@ -38,13 +38,18 @@ export function PaymentMethodCell({ method }: { method: PaymentMethod }) {
     method.type === "card" ? CARD_BRAND_ICONS[method.brand] : BankIcon;
 
   return (
-    <span className="flex items-center gap-2" title={describe(method)}>
-      <span className="flex items-center gap-1">
-        {WalletIcon && <WalletIcon />}
-        <MethodIcon />
+    <span className="flex items-center" title={describe(method)}>
+      {/* The wallet slot is always reserved so card icons line up across rows. */}
+      <span className="flex w-[21px] shrink-0">
+        {WalletIcon && <WalletIcon width={21} height={21} />}
       </span>
-      <span className="text-ink-subdued">
-        <span aria-hidden>•••• </span>
+      <span className="ml-1 flex shrink-0">
+        <MethodIcon width={21} height={21} />
+      </span>
+      <span className="ml-2 text-ink-body">
+        <span className="text-ink-muted" aria-hidden>
+          ••••{" "}
+        </span>
         <span className="sr-only">{describe(method)}</span>
         <span aria-hidden>{method.last4}</span>
       </span>

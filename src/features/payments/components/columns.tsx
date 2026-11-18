@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { formatPaymentDate } from "../domain/format";
+import { formatCurrencyCode, formatPaymentDate } from "../domain/format";
 import type { Payment } from "../domain/payment";
 import {
   compareByAmount,
@@ -20,7 +20,11 @@ import { StatusBadge } from "./cells/status-badge";
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData, TValue> {
-    align?: "left" | "right";
+    /** Column width in px, measured from the reference screenshot. */
+    width: number;
+    align?: "left" | "right" | "center";
+    /** Header label stays hidden until the header is hovered or focused. */
+    revealHeaderOnHover?: boolean;
     className?: string;
   }
 }
@@ -47,7 +51,7 @@ export function createPaymentColumns(now: number) {
           onChange={row.getToggleSelectedHandler()}
         />
       ),
-      meta: { className: "w-10 px-0 text-center [&>*]:align-middle" },
+      meta: { width: 26, align: "center", className: "px-[5px]" },
     }),
     column.accessor("amount", {
       header: "Amount",
@@ -59,49 +63,86 @@ export function createPaymentColumns(now: number) {
       ),
       sortingFn: (a, b) => compareByAmount(a.original, b.original),
       sortDescFirst: true,
-      meta: { align: "right" },
+      meta: { width: 91, align: "right", className: "pr-2 pl-1.5" },
+    }),
+    column.accessor("currency", {
+      header: () => <span className="sr-only">Currency</span>,
+      cell: ({ getValue }) => (
+        <span className="text-ink-subdued">
+          {formatCurrencyCode(getValue())}
+        </span>
+      ),
+      enableSorting: false,
+      meta: { width: 41 },
     }),
     column.accessor("status", {
       header: "Status",
       cell: ({ getValue }) => <StatusBadge status={getValue()} />,
       sortingFn: (a, b) => compareByStatus(a.original, b.original),
+      meta: { width: 121, revealHeaderOnHover: true },
     }),
     column.accessor("paymentMethod", {
       header: "Payment method",
       cell: ({ getValue }) => <PaymentMethodCell method={getValue()} />,
       enableSorting: false,
+      meta: { width: 145 },
     }),
     column.accessor("description", {
       header: "Description",
+      cell: ({ getValue }) => (
+        <span className="text-ink-subdued">{getValue()}</span>
+      ),
       enableSorting: false,
+      meta: { width: 156 },
     }),
     column.accessor("customerEmail", {
       header: "Customer",
+      cell: ({ getValue }) => (
+        <span className="text-ink-subdued">{getValue()}</span>
+      ),
       enableSorting: false,
-    }),
-    column.accessor("id", {
-      header: "Payment ID",
-      cell: ({ getValue }) => <CopyableId id={getValue()} />,
-      enableSorting: false,
+      meta: { width: 272 },
     }),
     column.accessor("created", {
       header: "Date",
       cell: ({ getValue }) => <DateCell timestamp={getValue()} now={now} />,
       sortingFn: (a, b) => compareByCreated(a.original, b.original),
       sortDescFirst: true,
+      meta: { width: 136 },
     }),
     column.accessor("refundedAt", {
       header: "Refunded date",
       cell: ({ getValue }) => {
         const refundedAt = getValue();
-        return refundedAt ? formatPaymentDate(refundedAt, now) : <EmptyValue />;
+        return refundedAt ? (
+          <span className="text-ink-subdued">
+            {formatPaymentDate(refundedAt, now)}
+          </span>
+        ) : (
+          <EmptyValue />
+        );
       },
       enableSorting: false,
+      meta: { width: 115 },
     }),
     column.accessor("declineReason", {
       header: "Decline reason",
-      cell: ({ getValue }) => getValue() ?? <EmptyValue />,
+      cell: ({ getValue }) => {
+        const reason = getValue();
+        return reason ? (
+          <span className="text-ink-subdued">{reason}</span>
+        ) : (
+          <EmptyValue />
+        );
+      },
       enableSorting: false,
+      meta: { width: 180 },
+    }),
+    column.accessor("id", {
+      header: "Payment ID",
+      cell: ({ getValue }) => <CopyableId id={getValue()} />,
+      enableSorting: false,
+      meta: { width: 190 },
     }),
     column.display({
       id: "actions",
@@ -110,14 +151,16 @@ export function createPaymentColumns(now: number) {
         <button
           type="button"
           aria-label={`More actions for payment ${row.original.id}`}
-          className="grid size-6 cursor-pointer place-content-center rounded text-ink-subdued hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+          className="grid size-6 cursor-pointer place-content-center rounded text-ink-muted hover:bg-offset hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
         >
           <EllipsisHorizontalIcon className="size-4" aria-hidden />
         </button>
       ),
       meta: {
+        width: 41,
+        align: "center",
         className:
-          "sticky right-0 w-12 bg-white px-3 shadow-[inset_1px_0_0_var(--color-line-subtle)] group-hover/row:bg-hover",
+          "sticky right-0 z-10 bg-white px-0 shadow-[2px_0_0_#fff] group-hover/row:bg-hover before:pointer-events-none before:absolute before:inset-y-0 before:-left-8 before:w-8 before:bg-linear-to-r before:from-white/0 before:to-white before:content-[''] group-hover/row:before:to-hover [&>*]:mx-auto",
       },
     }),
   ];

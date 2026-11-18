@@ -35,9 +35,7 @@ export function PaymentsTable({
   onClearFilters,
 }: PaymentsTableProps) {
   const columns = useMemo(() => createPaymentColumns(now), [now]);
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "created", desc: true },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORTING);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: PAGE_SIZES[0],
@@ -64,16 +62,25 @@ export function PaymentsTable({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const columnCount = table.getVisibleLeafColumns().length;
+
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="w-full border-separate border-spacing-0 text-sm">
-          <thead>
+        <table className="w-max min-w-full table-fixed border-separate border-spacing-0 text-sm">
+          <colgroup>
+            {table.getVisibleLeafColumns().map((column) => (
+              <col
+                key={column.id}
+                style={{ width: column.columnDef.meta?.width }}
+              />
+            ))}
+          </colgroup>
+          <thead className="group/head">
             {table.getHeaderGroups().map((group) => (
               <tr key={group.id}>
                 {group.headers.map((header) => {
-                  const { align, className } =
-                    header.column.columnDef.meta ?? {};
+                  const meta = header.column.columnDef.meta;
                   const sorted = header.column.getIsSorted();
                   const label = flexRender(
                     header.column.columnDef.header,
@@ -92,9 +99,9 @@ export function PaymentsTable({
                             : undefined
                       }
                       className={clsx(
-                        "h-10 border-b border-line-subtle bg-white px-4 text-xs font-semibold whitespace-nowrap text-ink-subdued",
-                        align === "right" ? "text-right" : "text-left",
-                        className,
+                        "h-[38px] border-y border-t-line border-b-line-subtle bg-white px-1.5 text-xs font-semibold whitespace-nowrap text-ink",
+                        ALIGN_CLASSES[meta?.align ?? "left"],
+                        meta?.className,
                       )}
                     >
                       {header.column.getCanSort() ? (
@@ -102,13 +109,17 @@ export function PaymentsTable({
                           type="button"
                           onClick={header.column.getToggleSortingHandler()}
                           className={clsx(
-                            "group/sort inline-flex cursor-pointer items-center gap-1 rounded-sm hover:text-ink focus-visible:outline-2 focus-visible:outline-brand",
-                            align === "right" && "flex-row-reverse",
-                            sorted && "text-ink",
+                            "group/sort inline-flex cursor-pointer items-center gap-0.5 rounded-sm focus-visible:outline-2 focus-visible:outline-brand",
+                            meta?.align === "right" && "flex-row-reverse",
+                            meta?.revealHeaderOnHover &&
+                              !sorted &&
+                              "opacity-0 group-hover/head:opacity-100 focus-visible:opacity-100",
                           )}
                         >
                           {label}
-                          <SortIndicator direction={sorted} />
+                          <SortIndicator
+                            direction={isDefaultSort(sorting) ? false : sorted}
+                          />
                         </button>
                       ) : (
                         label
@@ -123,8 +134,8 @@ export function PaymentsTable({
             {payments.length === 0 && (
               <tr>
                 <td
-                  colSpan={table.getVisibleLeafColumns().length}
-                  className="border-b border-line-subtle py-16 text-center"
+                  colSpan={columnCount}
+                  className="sticky left-0 border-b border-line-subtle py-16 text-center"
                 >
                   <p className="font-semibold">No results</p>
                   <p className="mt-1 text-ink-subdued">
@@ -143,14 +154,14 @@ export function PaymentsTable({
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id} className="group/row hover:bg-hover">
                 {row.getVisibleCells().map((cell) => {
-                  const { align, className } = cell.column.columnDef.meta ?? {};
+                  const meta = cell.column.columnDef.meta;
                   return (
                     <td
                       key={cell.id}
                       className={clsx(
-                        "h-11 border-b border-line-subtle px-4 whitespace-nowrap",
-                        align === "right" && "text-right",
-                        className,
+                        "h-[37.3px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap",
+                        ALIGN_CLASSES[meta?.align ?? "left"],
+                        meta?.className,
                       )}
                     >
                       {flexRender(
@@ -170,11 +181,29 @@ export function PaymentsTable({
   );
 }
 
+const DEFAULT_SORTING: SortingState = [{ id: "created", desc: true }];
+
+/** The reference shows no arrow while the list is in its default order. */
+function isDefaultSort(sorting: SortingState): boolean {
+  const [current] = sorting;
+  return (
+    sorting.length === 1 &&
+    current?.id === DEFAULT_SORTING[0]!.id &&
+    current.desc === DEFAULT_SORTING[0]!.desc
+  );
+}
+
+const ALIGN_CLASSES = {
+  left: "text-left",
+  right: "text-right",
+  center: "text-center",
+} as const;
+
 function SortIndicator({ direction }: { direction: false | "asc" | "desc" }) {
   if (!direction) {
     return (
       <ChevronDownIcon
-        className="size-3 opacity-0 group-hover/sort:opacity-60"
+        className="size-3 text-ink-muted opacity-0 group-hover/sort:opacity-100 group-focus-visible/sort:opacity-100"
         aria-hidden
       />
     );

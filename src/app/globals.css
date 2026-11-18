@@ -1,31 +1,38 @@
 @import "tailwindcss";
 
-/* Values measured from the Stripe Dashboard. */
+/* Values sampled from the reference screenshot of the Stripe Dashboard. */
 @theme {
   --font-sans:
     -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu,
     sans-serif;
   --font-mono: Menlo, Consolas, "Liberation Mono", monospace;
 
-  --color-ink: #1a2c44;
-  --color-ink-subdued: #3c4f69;
-  --color-ink-muted: #50617a;
-  --color-line: #d4dee9;
-  --color-line-subtle: #ecf1f6;
-  --color-offset: #f4f7fa;
-  --color-hover: #f8fafd;
+  --color-ink-strong: #30313d;
+  --color-ink: #353a44;
+  --color-ink-body: #414552;
+  --color-ink-subdued: #596171;
+  --color-ink-muted: #687385;
+  --color-ink-disabled: #a3acb9;
+  --color-line: #d8dee4;
+  --color-line-subtle: #ebeef1;
+  --color-offset: #f5f6f8;
+  --color-hover: #f8f9fa;
   --color-brand: #533afd;
-  --color-brand-hover: #4329e8;
+  --color-brand-solid: #635bff;
+  --color-brand-solid-hover: #5851ec;
 
-  --color-success-ink: #217005;
-  --color-success-bg: #eafcdd;
-  --color-success-line: #a8f170;
-  --color-danger-ink: #c0123c;
-  --color-danger-bg: #fef4f6;
-  --color-danger-line: #fbd3dc;
-  --color-warning-ink: #b13600;
-  --color-warning-bg: #fdf8c9;
+  --color-success-ink: #2f6c18;
+  --color-success-bg: #edfbe0;
+  --color-success-line: #b8ef81;
+  --color-danger-ink: #b0233c;
+  --color-danger-bg: #fcf4f6;
+  --color-danger-line: #f5d4dc;
+  --color-warning-ink: #a8400a;
+  --color-warning-bg: #fef9da;
   --color-warning-line: #fbd992;
+  --color-neutral-ink: #596171;
+  --color-neutral-bg: #f5f6f8;
+  --color-neutral-line: #d9dee3;
 }
 
 body {

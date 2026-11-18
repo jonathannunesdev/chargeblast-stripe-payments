@@ -31,7 +31,7 @@ const ROWS: ReferenceRow[] = [
     amount: 988,
     currency: "usd",
     status: "failed",
-    brand: "unknown",
+    brand: "discover",
     wallet: null,
     last4: "4149",
     email: "jlima@fwdesign.com",

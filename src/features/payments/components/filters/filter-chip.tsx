@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
+import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
 import { useState, type ReactNode } from "react";
 
@@ -42,18 +42,26 @@ export function FilterChip({
             aria-label={`Clear ${label} filter`}
             className="grid h-full cursor-pointer place-content-center rounded-full pr-0.5 pl-1.5 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
           >
-            <XCircleIcon className="size-3.5" aria-hidden />
+            <XCircleIcon
+              className="size-4 stroke-[1.6] text-ink-subdued"
+              aria-hidden
+            />
           </button>
         ) : null}
         <PopoverTrigger asChild>
           <button
             type="button"
             className={clsx(
-              "inline-flex h-full cursor-pointer items-center gap-1 rounded-full pr-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand",
-              active ? "pl-0.5" : "pl-1.5",
+              "inline-flex h-full cursor-pointer items-center gap-1 rounded-full pr-2.5 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand",
+              active ? "pl-0.5" : "pl-[7px]",
             )}
           >
-            {!active && <PlusCircleIcon className="size-3.5" aria-hidden />}
+            {!active && (
+              <PlusCircleIcon
+                className="size-4 stroke-[1.6] text-ink-subdued"
+                aria-hidden
+              />
+            )}
             {label}
             {active && (
               <>

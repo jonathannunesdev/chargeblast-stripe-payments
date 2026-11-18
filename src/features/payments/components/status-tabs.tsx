@@ -32,11 +32,11 @@ export function StatusTabs({ selected, onSelect }: StatusTabsProps) {
             aria-pressed={active}
             onClick={() => onSelect(status === null ? [] : [status])}
             className={clsx(
-              "flex h-10 min-w-0 flex-1 cursor-pointer items-center rounded-md bg-white px-3 text-left text-sm whitespace-nowrap",
+              "flex h-[46px] min-w-0 flex-1 cursor-pointer items-center rounded-md bg-white px-3 text-left text-sm whitespace-nowrap",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
               active
-                ? "font-semibold text-brand shadow-[0_0_0_2px_var(--color-brand)]"
-                : "text-ink-subdued shadow-[0_0_0_1px_var(--color-line)] hover:shadow-[0_0_0_1px_var(--color-ink-muted)]",
+                ? "font-semibold text-brand shadow-[inset_0_0_0_2px_var(--color-brand-solid)]"
+                : "text-ink-subdued shadow-[inset_0_0_0_1px_var(--color-line)] hover:shadow-[inset_0_0_0_1px_var(--color-ink-disabled)]",
             )}
           >
             {status === null ? "All" : STATUS_LABELS[status]}

@@ -16,14 +16,16 @@ export function PageHeader() {
   return (
     <header>
       <div className="flex items-center justify-between">
-        <h1 className="text-[28px] leading-9 font-bold">Transactions</h1>
+        <h1 className="text-[28px] leading-9 font-bold text-ink-strong">
+          Transactions
+        </h1>
         <div className="flex items-center gap-2">
           <Button variant="primary">
             <PlusIcon className="size-3.5" aria-hidden />
             Create payment
           </Button>
           <Button>
-            <ChartBarIcon className="size-3.5 text-ink-subdued" aria-hidden />
+            <ChartBarIcon className="size-3.5 text-ink-muted" aria-hidden />
             Analyze
           </Button>
         </div>

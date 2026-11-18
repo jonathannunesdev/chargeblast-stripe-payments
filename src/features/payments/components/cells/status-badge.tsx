@@ -3,33 +3,70 @@ import {
   CheckIcon,
   ClockIcon,
   ExclamationCircleIcon,
-  NoSymbolIcon,
+  MinusCircleIcon,
   XMarkIcon,
-} from "@heroicons/react/16/solid";
+} from "@heroicons/react/24/outline";
 import type { ComponentType, SVGProps } from "react";
 
 import { Badge, type BadgeVariant } from "@/components/ui/badge";
 
 import { STATUS_LABELS, type PaymentStatus } from "../../domain/payment";
 
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+
 const STATUS_APPEARANCE: Record<
   PaymentStatus,
-  { variant: BadgeVariant; Icon: ComponentType<SVGProps<SVGSVGElement>> }
+  { variant: BadgeVariant; Icon: Icon; iconClassName: string }
 > = {
-  succeeded: { variant: "success", Icon: CheckIcon },
-  pending: { variant: "neutral", Icon: ClockIcon },
-  failed: { variant: "danger", Icon: XMarkIcon },
-  refunded: { variant: "neutral", Icon: ArrowUturnLeftIcon },
-  canceled: { variant: "neutral", Icon: XMarkIcon },
-  blocked: { variant: "danger", Icon: NoSymbolIcon },
-  disputed: { variant: "warning", Icon: ExclamationCircleIcon },
-  uncaptured: { variant: "neutral", Icon: ClockIcon },
+  succeeded: {
+    variant: "success",
+    Icon: CheckIcon,
+    iconClassName: "size-4 stroke-[2.6] text-[#228403]",
+  },
+  pending: {
+    variant: "neutral",
+    Icon: ClockIcon,
+    iconClassName: "size-3.5 stroke-2",
+  },
+  failed: {
+    variant: "danger",
+    Icon: XMarkIcon,
+    iconClassName: "size-4 stroke-[2.6] text-[#df1b41]",
+  },
+  refunded: {
+    variant: "neutral",
+    Icon: ArrowUturnLeftIcon,
+    iconClassName: "size-3.5 stroke-2",
+  },
+  canceled: {
+    variant: "neutral",
+    Icon: XMarkIcon,
+    iconClassName: "size-4 stroke-[2.6] text-ink-muted",
+  },
+  blocked: {
+    variant: "danger",
+    Icon: MinusCircleIcon,
+    iconClassName: "ml-0.5 size-3.5 stroke-2 text-[#df1b41]",
+  },
+  disputed: {
+    variant: "warning",
+    Icon: ExclamationCircleIcon,
+    iconClassName: "size-3.5 stroke-2",
+  },
+  uncaptured: {
+    variant: "neutral",
+    Icon: ClockIcon,
+    iconClassName: "size-3.5 stroke-2",
+  },
 };
 
 export function StatusBadge({ status }: { status: PaymentStatus }) {
-  const { variant, Icon } = STATUS_APPEARANCE[status];
+  const { variant, Icon, iconClassName } = STATUS_APPEARANCE[status];
   return (
-    <Badge variant={variant} icon={<Icon className="size-3" aria-hidden />}>
+    <Badge
+      variant={variant}
+      icon={<Icon className={iconClassName} aria-hidden />}
+    >
       {STATUS_LABELS[status]}
     </Badge>
   );

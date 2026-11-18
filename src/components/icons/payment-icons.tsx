@@ -38,7 +38,7 @@ function Wordmark({ children, fill }: { children: string; fill: string }) {
 export function VisaIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="4" fill="#1a1f71" />
+      <rect width="32" height="32" rx="3" fill="#22569a" />
       <Wordmark fill="#ffffff">VISA</Wordmark>
     </Tile>
   );
@@ -47,7 +47,7 @@ export function VisaIcon(props: IconProps) {
 export function MastercardIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="4" fill="#141414" />
+      <rect width="32" height="32" rx="3" fill="#000000" />
       <circle cx="12.5" cy="16" r="6.5" fill="#eb001b" />
       <circle cx="19.5" cy="16" r="6.5" fill="#f79e1b" />
       <path
@@ -70,16 +70,20 @@ export function AmexIcon(props: IconProps) {
 export function DiscoverIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect
-        x="0.5"
-        y="0.5"
-        width="31"
-        height="31"
-        rx="3.5"
-        fill="#ffffff"
-        stroke="#d4dee9"
-      />
-      <circle cx="16" cy="16" r="6" fill="#f48120" />
+      <rect width="32" height="32" rx="3" fill="#ffffff" />
+      <text
+        x="16"
+        y="18"
+        textAnchor="middle"
+        fill="#231f20"
+        fontSize="5.2"
+        fontWeight="700"
+        fontFamily="Arial, Helvetica, sans-serif"
+        letterSpacing="0.2"
+      >
+        DISC VER
+      </text>
+      <circle cx="17.2" cy="16.2" r="2.1" fill="#f48120" />
     </Tile>
   );
 }
@@ -96,7 +100,7 @@ export function UnknownCardIcon(props: IconProps) {
 export function LinkWalletIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="4" fill="#00d66f" />
+      <rect width="32" height="32" rx="3" fill="#61d37a" />
       <path
         d="m12 9 8 7-8 7"
         fill="none"
@@ -111,7 +115,7 @@ export function LinkWalletIcon(props: IconProps) {
 export function ApplePayIcon(props: IconProps) {
   return (
     <Tile {...props}>
-      <rect width="32" height="32" rx="4" fill="#000000" />
+      <rect width="32" height="32" rx="3" fill="#000000" />
       <text
         x="16"
         y="19.5"

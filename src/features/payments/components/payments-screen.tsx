@@ -32,14 +32,20 @@ export function PaymentsScreen() {
         search={filters.query}
         onSearchChange={(query) => setFilter("query", query)}
       />
-      <div className="mt-4 flex flex-col gap-4">
+      <div className="mt-5 flex flex-col">
         <PageHeader />
-        <NoticeBanner />
-        <StatusTabs
-          selected={filters.statuses}
-          onSelect={(statuses) => setFilter("statuses", statuses)}
-        />
-        <FilterBar filters={filters} now={DATASET_NOW} onChange={setFilter} />
+        <div className="mt-6">
+          <NoticeBanner />
+        </div>
+        <div className="mt-4">
+          <StatusTabs
+            selected={filters.statuses}
+            onSelect={(statuses) => setFilter("statuses", statuses)}
+          />
+        </div>
+        <div className="mt-[19px] mb-3">
+          <FilterBar filters={filters} now={DATASET_NOW} onChange={setFilter} />
+        </div>
         {state.status === "loading" && <TableSkeleton />}
         {state.status === "error" && (
           <p

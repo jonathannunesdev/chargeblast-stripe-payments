@@ -19,7 +19,7 @@ const MENU_ITEMS = [
 function AccountAvatar() {
   return (
     <span
-      className="grid size-5 place-content-center rounded bg-[#e7e3ff] text-[11px] font-bold text-brand"
+      className="grid size-6 place-content-center rounded-md bg-[#e2dffd] text-[11px] font-bold text-brand"
       aria-hidden
     >
       C
@@ -33,7 +33,7 @@ export function AccountMenu() {
       <RadixPopover.Trigger asChild>
         <button
           type="button"
-          className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-1 text-left text-sm font-semibold hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
+          className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-md px-1.5 text-left text-sm font-semibold hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
         >
           <AccountAvatar />
           <span className="flex-1 truncate">{ACCOUNT_NAME}</span>

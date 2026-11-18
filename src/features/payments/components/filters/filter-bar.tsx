@@ -4,7 +4,7 @@ import {
   ArrowUpTrayIcon,
   Cog6ToothIcon,
   PlusCircleIcon,
-} from "@heroicons/react/16/solid";
+} from "@heroicons/react/24/outline";
 
 import { Button } from "@/components/ui/button";
 
@@ -140,21 +140,30 @@ export function FilterBar({ filters, now, onChange }: FilterBarProps) {
           )}
         </FilterChip>
         <span
-          className="inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line px-1.5 pr-2 text-xs font-semibold whitespace-nowrap text-ink-subdued/70"
+          className="inline-flex h-6 items-center gap-1 rounded-full border border-dashed border-line pr-2.5 pl-[7px] text-xs font-semibold whitespace-nowrap text-ink-subdued"
           aria-disabled="true"
           title="Not available in this demo"
         >
-          <PlusCircleIcon className="size-3.5" aria-hidden />
+          <PlusCircleIcon
+            className="size-4 stroke-[1.6] text-ink-subdued"
+            aria-hidden
+          />
           More filters
         </span>
       </div>
       <div className="flex shrink-0 items-center gap-2">
         <Button>
-          <ArrowUpTrayIcon className="size-3.5 text-ink-subdued" aria-hidden />
+          <ArrowUpTrayIcon
+            className="size-3.5 stroke-2 text-ink-muted"
+            aria-hidden
+          />
           Export
         </Button>
         <Button>
-          <Cog6ToothIcon className="size-3.5 text-ink-subdued" aria-hidden />
+          <Cog6ToothIcon
+            className="size-3.5 stroke-2 text-ink-muted"
+            aria-hidden
+          />
           Edit columns
         </Button>
       </div>

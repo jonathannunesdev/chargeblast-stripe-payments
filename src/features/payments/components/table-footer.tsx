@@ -18,7 +18,7 @@ export function TableFooter({ table, pageSizes }: TableFooterProps) {
   const last = Math.min(total, (pageIndex + 1) * pageSize);
 
   return (
-    <div className="flex items-center justify-between py-3 text-xs text-ink-subdued">
+    <div className="flex items-center justify-between pt-3 text-sm text-ink-body">
       <p aria-live="polite">
         {total === 0 ? (
           "0 results"
@@ -37,7 +37,7 @@ export function TableFooter({ table, pageSizes }: TableFooterProps) {
         )}
       </p>
       <div className="flex items-center gap-2">
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 text-xs text-ink-subdued">
           Rows per page
           <select
             value={pageSize}
@@ -52,14 +52,14 @@ export function TableFooter({ table, pageSizes }: TableFooterProps) {
           </select>
         </label>
         <Button
-          className="h-6 text-xs"
+          size="sm"
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
         >
           Previous
         </Button>
         <Button
-          className="h-6 text-xs"
+          size="sm"
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
         >

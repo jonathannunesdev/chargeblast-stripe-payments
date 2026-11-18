@@ -63,13 +63,13 @@ function NavLink({ item }: { item: NavItem }) {
         href={item.href ?? "#"}
         aria-current={active ? "page" : undefined}
         className={clsx(
-          "flex h-7.5 items-center gap-3 rounded-md px-1 text-sm",
+          "flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm",
           "hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand",
           active ? "font-semibold text-brand" : "text-ink",
         )}
       >
         <Icon
-          className={clsx("size-4", active ? "text-brand" : "text-ink-subdued")}
+          className={clsx("size-5", active ? "text-brand" : "text-ink-muted")}
           aria-hidden
         />
         <span className="flex-1 truncate">{item.label}</span>
@@ -86,9 +86,9 @@ function NavLink({ item }: { item: NavItem }) {
 
 function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
   return (
-    <div className={title ? "mt-7" : undefined}>
+    <div className={title ? "mt-8" : undefined}>
       {title && (
-        <p className="flex h-6.5 items-center text-xs text-ink-subdued">
+        <p className="flex h-7 items-center px-1.5 text-xs text-ink-subdued">
           {title}
         </p>
       )}
@@ -103,21 +103,24 @@ function NavSection({ title, items }: { title?: string; items: NavItem[] }) {
 
 export function Sidebar() {
   return (
-    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-line-subtle bg-white">
-      <div className="px-5 pt-3">
+    <aside className="sticky top-0 flex h-screen w-[241px] shrink-0 flex-col border-r border-line-subtle bg-white">
+      <div className="pt-2.5 pr-4 pl-2.5">
         <AccountMenu />
       </div>
-      <nav aria-label="Main" className="mt-5 flex-1 overflow-y-auto px-5">
+      <nav
+        aria-label="Main"
+        className="mt-[33px] flex-1 overflow-y-auto pr-4 pl-2.5"
+      >
         <NavSection items={MAIN_ITEMS} />
         <NavSection title="Shortcuts" items={SHORTCUT_ITEMS} />
         <NavSection title="Products" items={PRODUCT_ITEMS} />
       </nav>
-      <div className="border-t border-line-subtle px-5 py-2">
+      <div className="pr-4 pb-3 pl-2.5">
         <a
           href="#"
-          className="flex h-7.5 items-center gap-3 rounded-md px-1 text-sm hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
+          className="flex h-7.5 items-center gap-2.5 rounded-md px-2 text-sm hover:bg-offset focus-visible:outline-2 focus-visible:outline-brand"
         >
-          <CommandLineIcon className="size-4 text-ink-subdued" aria-hidden />
+          <CommandLineIcon className="size-5 text-ink-muted" aria-hidden />
           Developers
         </a>
       </div>
