@@ -1,4 +1,3 @@
-/** Triggers a browser download for in-memory content. */
 export function downloadFile(filename: string, content: string, type: string) {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement("a");

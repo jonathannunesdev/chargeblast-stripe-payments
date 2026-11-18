@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 
 export const Popover = RadixPopover.Root;
 export const PopoverTrigger = RadixPopover.Trigger;
-export const PopoverAnchor = RadixPopover.Anchor;
 
 interface PopoverContentProps {
   title: string;

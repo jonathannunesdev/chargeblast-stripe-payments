@@ -28,7 +28,6 @@ function isSortKey(id: string): id is PaymentSortKey {
   return SORT_KEYS.includes(id);
 }
 
-/** Exports every payment that matches the filters, in the current sort order. */
 function exportPayments(payments: Payment[], sorting: SortingState) {
   const [current] = sorting;
   const rows =

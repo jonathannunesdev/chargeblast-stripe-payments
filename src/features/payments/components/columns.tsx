@@ -23,7 +23,6 @@ declare module "@tanstack/react-table" {
     /** Column width in px, measured from the reference screenshot. */
     width: number;
     align?: "left" | "right" | "center";
-    /** Header label stays hidden until the header is hovered or focused. */
     revealHeaderOnHover?: boolean;
     className?: string;
   }
