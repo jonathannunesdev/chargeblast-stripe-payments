@@ -52,10 +52,7 @@ interface Interval {
   end: number;
 }
 
-export function resolveDateRange(
-  range: DateRangeFilter,
-  now: number,
-): Interval {
+function resolveDateRange(range: DateRangeFilter, now: number): Interval {
   if (range.type === "custom") {
     return {
       start: range.from

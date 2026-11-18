@@ -28,6 +28,8 @@ import { PaymentsScreen } from "./payments-screen";
 
 vi.mock("@/lib/download", () => ({ downloadFile: vi.fn() }));
 
+const push = vi.fn();
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
 
 async function renderScreen() {
   const user = userEvent.setup();
@@ -100,6 +102,14 @@ describe("PaymentsScreen", () => {
     expect(
       screen.getByRole("button", { name: "Clear Amount filter" }),
     ).toBeInTheDocument();
+  });
+
+  it("opens the payment details when a row is clicked", async () => {
+    const user = await renderScreen();
+    push.mockClear();
+    await user.click(within(dataRows()[0]!).getByText("jjuan@hwlawnv.com"));
+
+    expect(push).toHaveBeenCalledWith("/payments/pi_3kMg5AEfd5tYxm9rM6ynPK98");
   });
 
   it("filters by status from the quick filters", async () => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon, Square2StackIcon } from "@heroicons/react/16/solid";
+import { clsx } from "clsx";
 import { useEffect, useState } from "react";
 
 import { Tooltip } from "@/components/ui/tooltip";
@@ -9,7 +10,14 @@ import { shortenId } from "../../domain/format";
 
 const COPIED_FEEDBACK_MS = 1500;
 
-export function CopyableId({ id }: { id: string }) {
+/** A payment ID with a copy button; `full` shows the whole ID and keeps the button visible. */
+export function CopyableId({
+  id,
+  full = false,
+}: {
+  id: string;
+  full?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -30,7 +38,7 @@ export function CopyableId({ id }: { id: string }) {
   return (
     <span className="group/id flex items-center gap-1">
       <span className="text-ink-subdued" title={id}>
-        {shortenId(id)}
+        {full ? id : shortenId(id)}
       </span>
       <Tooltip
         content={copied ? "Copied" : "Copy ID"}
@@ -43,7 +51,10 @@ export function CopyableId({ id }: { id: string }) {
             void copy();
           }}
           aria-label={copied ? "Payment ID copied" : `Copy payment ID ${id}`}
-          className="grid size-5 cursor-pointer place-content-center rounded text-ink-muted opacity-0 group-hover/row:opacity-100 hover:bg-offset hover:text-ink focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-brand"
+          className={clsx(
+            "grid size-5 cursor-pointer place-content-center rounded text-ink-muted hover:bg-offset hover:text-ink focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-brand",
+            !full && "opacity-0 group-hover/row:opacity-100",
+          )}
         >
           {copied ? (
             <CheckIcon className="size-3.5 text-success-ink" aria-hidden />

@@ -18,6 +18,8 @@ import { Tooltip } from "@/components/ui/tooltip";
 interface TopBarProps {
   search: string;
   onSearchChange: (value: string) => void;
+  /** Called on Enter; pages without a list use it to open the search results. */
+  onSearchSubmit?: () => void;
 }
 
 const APPS = [
@@ -46,25 +48,38 @@ function IconButton({
   );
 }
 
-export function TopBar({ search, onSearchChange }: TopBarProps) {
+export function TopBar({
+  search,
+  onSearchChange,
+  onSearchSubmit,
+}: TopBarProps) {
   return (
     <div className="flex h-14 items-center justify-between gap-6">
-      <label className="relative block w-[577px] min-w-0 shrink">
-        <span className="sr-only">
-          Search payments by ID, email or last 4 digits
-        </span>
-        <MagnifyingGlassIcon
-          className="pointer-events-none absolute top-1/2 left-3 size-[13px] -translate-y-1/2 text-ink-subdued"
-          aria-hidden
-        />
-        <input
-          type="search"
-          value={search}
-          onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Search"
-          className="h-[36.5px] w-full rounded-md bg-offset pr-3 pl-8 text-sm text-ink placeholder:text-ink-subdued focus:bg-white focus:shadow-[0_0_0_1px_var(--color-brand),0_0_0_4px_rgba(83,58,253,0.18)] focus:outline-none [&::-webkit-search-cancel-button]:cursor-pointer"
-        />
-      </label>
+      <form
+        role="search"
+        className="w-[577px] min-w-0 shrink"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSearchSubmit?.();
+        }}
+      >
+        <label className="relative block">
+          <span className="sr-only">
+            Search payments by ID, email or last 4 digits
+          </span>
+          <MagnifyingGlassIcon
+            className="pointer-events-none absolute top-1/2 left-3 size-[13px] -translate-y-1/2 text-ink-subdued"
+            aria-hidden
+          />
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Search"
+            className="h-[36.5px] w-full rounded-md bg-offset pr-3 pl-8 text-sm text-ink placeholder:text-ink-subdued focus:bg-white focus:shadow-[0_0_0_1px_var(--color-brand),0_0_0_4px_rgba(83,58,253,0.18)] focus:outline-none [&::-webkit-search-cancel-button]:cursor-pointer"
+          />
+        </label>
+      </form>
       <div className="flex shrink-0 items-center pr-[3px]">
         <p className="text-sm text-ink-body">
           Test mode has moved.{" "}

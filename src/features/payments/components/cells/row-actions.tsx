@@ -2,6 +2,7 @@
 
 import { EllipsisHorizontalIcon } from "@heroicons/react/16/solid";
 import { ArrowUturnLeftIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { useState, type ComponentType, type SVGProps } from "react";
 
 import {
@@ -36,6 +37,7 @@ const BUTTON_CLASSES =
 
 /** Quick actions appear when the row is hovered; the menu is always there. */
 export function RowActions({ payment }: { payment: Payment }) {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const quickActions = QUICK_ACTIONS[payment.status] ?? [];
 
@@ -91,8 +93,18 @@ export function RowActions({ payment }: { payment: Payment }) {
           <div className="my-2 h-px bg-line-subtle" />
           <p className="mb-2 px-4 text-[13px] font-semibold">Connections</p>
           <ul>
-            <MenuItem unavailable>View customer</MenuItem>
-            <MenuItem unavailable>View payment details</MenuItem>
+            <MenuItem
+              onSelect={() =>
+                router.push(
+                  `/payments?q=${encodeURIComponent(payment.customerEmail)}`,
+                )
+              }
+            >
+              View customer
+            </MenuItem>
+            <MenuItem onSelect={() => router.push(`/payments/${payment.id}`)}>
+              View payment details
+            </MenuItem>
           </ul>
         </PopoverContent>
       </Popover>

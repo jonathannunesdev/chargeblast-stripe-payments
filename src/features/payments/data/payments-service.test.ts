@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { formatAmount, formatPaymentDate } from "../domain/format";
-import { DATASET_NOW, listPayments } from "./payments-service";
+import { DATASET_NOW, getPayment, listPayments } from "./payments-service";
 
 describe("listPayments", () => {
   it("returns 500 payments with unique ids, newest first", async () => {
@@ -29,5 +29,16 @@ describe("listPayments", () => {
       last4: "0900",
     });
     expect(formatAmount(fifth!.amount, fifth!.currency)).toBe("R$ 99.99");
+  });
+});
+
+describe("getPayment", () => {
+  it("finds a payment by id", async () => {
+    const [first] = await listPayments();
+    expect(await getPayment(first!.id)).toEqual(first);
+  });
+
+  it("returns null for an unknown id", async () => {
+    expect(await getPayment("pi_unknown")).toBeNull();
   });
 });

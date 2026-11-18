@@ -24,7 +24,7 @@ interface ReferenceRow {
   declineReason: string | null;
 }
 
-export const REFERENCE_DATE = { year: 2026, month: 7, day: 16 } as const;
+const REFERENCE_DATE = { year: 2026, month: 7, day: 16 } as const;
 
 const ROWS: ReferenceRow[] = [
   {

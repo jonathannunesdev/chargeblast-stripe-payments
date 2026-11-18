@@ -6,6 +6,7 @@ import {
   MinusCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import type { ComponentType, SVGProps } from "react";
 
 import { Badge, type BadgeVariant } from "@/components/ui/badge";
@@ -87,7 +88,7 @@ export function StatusBadge({ payment }: { payment: Payment }) {
     <Tooltip
       side="bottom"
       size="lg"
-      content={<StatusDetailsText details={details} />}
+      content={<StatusDetailsText details={details} paymentId={payment.id} />}
     >
       <span
         tabIndex={0}
@@ -99,7 +100,13 @@ export function StatusBadge({ payment }: { payment: Payment }) {
   );
 }
 
-function StatusDetailsText({ details }: { details: StatusDetails }) {
+function StatusDetailsText({
+  details,
+  paymentId,
+}: {
+  details: StatusDetails;
+  paymentId: string;
+}) {
   return (
     <>
       {details.title && <p className="font-semibold">{details.title}</p>}
@@ -109,7 +116,13 @@ function StatusDetailsText({ details }: { details: StatusDetails }) {
           <>
             {" "}
             Find more details on the{" "}
-            <span className="text-brand">payment timeline</span>.
+            <Link
+              href={`/payments/${paymentId}`}
+              className="text-brand hover:underline"
+            >
+              payment timeline
+            </Link>
+            .
           </>
         )}
         {details.learnMoreHref && (

@@ -13,7 +13,7 @@ export const compareByStatus: PaymentComparator = (a, b) =>
 export const compareByCreated: PaymentComparator = (a, b) =>
   a.created - b.created;
 
-export const PAYMENT_SORT_KEYS = ["amount", "status", "created"] as const;
+const PAYMENT_SORT_KEYS = ["amount", "status", "created"] as const;
 
 export type PaymentSortKey = (typeof PAYMENT_SORT_KEYS)[number];
 

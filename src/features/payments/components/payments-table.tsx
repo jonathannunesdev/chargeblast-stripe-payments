@@ -14,6 +14,7 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { clsx } from "clsx";
+import { useRouter } from "next/navigation";
 import {
   useMemo,
   useRef,
@@ -28,7 +29,7 @@ import { columnGroup, isPinnedColumn, reorderByPosition } from "./column-order";
 import { createPaymentColumns } from "./columns";
 import { TableFooter } from "./table-footer";
 
-export const PAGE_SIZES = [25, 50, 100] as const;
+const PAGE_SIZES = [25, 50, 100] as const;
 
 export const DEFAULT_SORTING: SortingState = [{ id: "created", desc: true }];
 
@@ -49,6 +50,7 @@ export function PaymentsTable({
   hasActiveFilters,
   onClearFilters,
 }: PaymentsTableProps) {
+  const router = useRouter();
   const columns = useMemo(() => createPaymentColumns(now), [now]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -60,7 +62,10 @@ export function PaymentsTable({
   const [dragged, setDragged] = useState<{
     ids: string[];
     offset: number;
+    /** The card that floats under the dragged column, in px from the wrapper. */
+    card: { left: number; width: number; height: number };
   } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const suppressClick = useRef(false);
 
@@ -122,17 +127,27 @@ export function PaymentsTable({
       if (!active && Math.abs(moveEvent.clientX - startX) < 4) return;
       active = true;
       document.body.style.cursor = "grabbing";
-      const left = tableElement!.getBoundingClientRect().left;
-      const pointer = moveEvent.clientX - left;
+      const tableRect = tableElement!.getBoundingClientRect();
+      const pointer = moveEvent.clientX - tableRect.left;
       const next = reorderByPosition(order, widths, columnId, {
         pointer,
         left: pointer - grabOffset,
       });
       order = next.order;
+      const ids = columnGroup(next.order, columnId);
+      const sum = (columnIds: string[]) =>
+        columnIds.reduce((total, id) => total + (widths[id] ?? 0), 0);
+      const slotLeft = sum(next.order.slice(0, next.order.indexOf(ids[0]!)));
+      const wrapperLeft = wrapperRef.current?.getBoundingClientRect().left ?? 0;
       setColumnOrder(next.order);
       setDragged({
-        ids: columnGroup(next.order, columnId),
+        ids,
         offset: next.offset,
+        card: {
+          left: tableRect.left - wrapperLeft + slotLeft + next.offset,
+          width: sum(ids),
+          height: tableElement!.offsetHeight,
+        },
       });
     }
 
@@ -160,7 +175,19 @@ export function PaymentsTable({
 
   return (
     <div>
-      <div className="relative">
+      <div ref={wrapperRef} className="relative">
+        {/* Like in the Stripe Dashboard, the dragged column sits on a floating card. */}
+        {dragged && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-2 z-10 rounded-lg bg-white shadow-[0_3px_6px_rgba(0,0,0,0.12),0_7px_14px_rgba(48,49,61,0.08)]"
+            style={{
+              left: dragged.card.left - 8,
+              width: dragged.card.width + 16,
+              height: dragged.card.height + 16,
+            }}
+          />
+        )}
         <div className="relative overflow-x-auto">
           <table
             ref={tableRef}
@@ -214,7 +241,8 @@ export function PaymentsTable({
                           ALIGN_CLASSES[meta?.align ?? "left"],
                           !isPinnedColumn(header.column.id) &&
                             "relative cursor-grab touch-none select-none",
-                          dragged?.ids.includes(header.column.id) && "z-20",
+                          dragged?.ids.includes(header.column.id) &&
+                            "z-20 bg-transparent!",
                           meta?.className,
                         )}
                       >
@@ -230,6 +258,7 @@ export function PaymentsTable({
                               meta?.align === "right" && "flex-row-reverse",
                               meta?.revealHeaderOnHover &&
                                 !sorted &&
+                                !dragged?.ids.includes(header.column.id) &&
                                 "opacity-0 group-hover/head:opacity-100 focus-visible:opacity-100",
                             )}
                           >
@@ -275,6 +304,11 @@ export function PaymentsTable({
                   key={row.id}
                   data-selected={row.getIsSelected() || undefined}
                   className="group/row cursor-pointer"
+                  onClick={(event) => {
+                    const target = event.target as HTMLElement;
+                    if (target.closest("a, button, input, label")) return;
+                    router.push(`/payments/${row.original.id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const meta = cell.column.columnDef.meta;
@@ -286,7 +320,7 @@ export function PaymentsTable({
                           "h-[37.38px] overflow-hidden border-b border-line-subtle px-1.5 whitespace-nowrap group-hover/row:bg-hover group-data-selected/row:bg-selected! first:rounded-l-md last:rounded-r-md",
                           ALIGN_CLASSES[meta?.align ?? "left"],
                           dragged?.ids.includes(cell.column.id) &&
-                            "relative z-20 bg-white!",
+                            "relative z-20 bg-transparent!",
                           meta?.className,
                         )}
                       >

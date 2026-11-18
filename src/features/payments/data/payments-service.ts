@@ -25,3 +25,9 @@ export async function listPayments(): Promise<Payment[]> {
 
   return [...reference, ...generated];
 }
+
+/** Stands in for an API call; resolves to null when the payment does not exist. */
+export async function getPayment(id: string): Promise<Payment | null> {
+  const payments = await listPayments();
+  return payments.find((payment) => payment.id === id) ?? null;
+}
